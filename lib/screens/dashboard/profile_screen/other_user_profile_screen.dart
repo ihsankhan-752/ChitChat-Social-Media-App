@@ -30,8 +30,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
 
   @override
   void initState() {
-    Provider.of<PostController>(context, listen: false)
-        .getAllMyPosts(context: context, userId: widget.userModel!.uid!);
+    Provider.of<PostController>(context, listen: false).getAllMyPosts(context: context, userId: widget.userModel!.uid!);
     super.initState();
   }
 
@@ -44,20 +43,31 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
     return Scaffold(
       floatingActionButton: SizedBox(
         height: 45,
-        width: 100,
         child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.mainColor,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: AppColors.mainColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
             ),
-            onPressed: () async {
-              await userController.followAndUnFollowUser(
-                  context, widget.userModel!.uid!);
-              Navigator.pop(context);
-            },
-            child: widget.userModel!.followers!
-                    .contains(FirebaseAuth.instance.currentUser!.uid)
-                ? const Text("Unfollow")
-                : const Text("Follow")),
+          ),
+          onPressed: () async {
+            await userController.followAndUnFollowUser(context, widget.userModel!.uid!);
+            Navigator.pop(context);
+          },
+          child: widget.userModel!.followers!.contains(FirebaseAuth.instance.currentUser!.uid)
+              ? Text(
+                  "Unfollow",
+                  style: TextStyle(
+                    color: AppColors.primaryWhite,
+                  ),
+                )
+              : Text(
+                  "Follow",
+                  style: TextStyle(
+                    color: AppColors.primaryWhite,
+                  ),
+                ),
+        ),
       ),
       appBar: AppBar(
         centerTitle: true,
@@ -77,18 +87,14 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
             SizedBox(
               height: height * 0.3,
               child: StreamBuilder(
-                stream: FirebaseFirestore.instance
-                    .collection('users')
-                    .doc(widget.userModel!.uid)
-                    .snapshots(),
+                stream: FirebaseFirestore.instance.collection('users').doc(widget.userModel!.uid).snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     return const Center(
                       child: CircularProgressIndicator(),
                     );
                   }
-                  UserModel userModel =
-                      UserModel.fromDocumentSnapshot(snapshot.data!);
+                  UserModel userModel = UserModel.fromDocumentSnapshot(snapshot.data!);
                   return Column(
                     children: [
                       ProfileHeader(
@@ -99,7 +105,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                       SizedBox(height: height * 0.03),
                       Container(
                         height: height * 0.06,
-                        width: width * 0.8,
+                        width: width * 0.95,
                         decoration: BoxDecoration(
                           color: AppColors.primaryWhite,
                           borderRadius: BorderRadius.circular(10),
@@ -108,56 +114,33 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             ProfileScreenButton(
-                                title:
-                                    postController.myPostList.length.toString(),
+                                title: postController.myPostList.length.toString(),
                                 subTitle: "Post",
-                                titleColor: currentIndex == 0
-                                    ? AppColors.primaryWhite
-                                    : AppColors.primaryBlack,
-                                subTitleColor: currentIndex == 0
-                                    ? AppColors.primaryWhite
-                                    : AppColors.primaryBlack,
-                                btnColor: currentIndex == 0
-                                    ? AppColors.mainColor
-                                    : AppColors.primaryWhite,
+                                titleColor: currentIndex == 0 ? AppColors.primaryWhite : AppColors.primaryBlack,
+                                subTitleColor: currentIndex == 0 ? AppColors.primaryWhite : AppColors.primaryBlack,
+                                btnColor: currentIndex == 0 ? AppColors.mainColor : AppColors.primaryWhite,
                                 onPressed: () {
                                   setState(() {
                                     currentIndex = 0;
                                   });
                                 }),
                             ProfileScreenButton(
-                                titleColor: currentIndex == 1
-                                    ? AppColors.primaryWhite
-                                    : AppColors.primaryBlack,
-                                subTitleColor: currentIndex == 1
-                                    ? AppColors.primaryWhite
-                                    : AppColors.primaryBlack,
-                                title: userModel.followers != null
-                                    ? userModel.followers!.length.toString()
-                                    : "0",
+                                titleColor: currentIndex == 1 ? AppColors.primaryWhite : AppColors.primaryBlack,
+                                subTitleColor: currentIndex == 1 ? AppColors.primaryWhite : AppColors.primaryBlack,
+                                title: userModel.followers != null ? userModel.followers!.length.toString() : "0",
                                 subTitle: "Followers",
-                                btnColor: currentIndex == 1
-                                    ? AppColors.mainColor
-                                    : AppColors.primaryWhite,
+                                btnColor: currentIndex == 1 ? AppColors.mainColor : AppColors.primaryWhite,
                                 onPressed: () {
                                   setState(() {
                                     currentIndex = 1;
                                   });
                                 }),
                             ProfileScreenButton(
-                                titleColor: currentIndex == 2
-                                    ? AppColors.primaryWhite
-                                    : AppColors.primaryBlack,
-                                subTitleColor: currentIndex == 2
-                                    ? AppColors.primaryWhite
-                                    : AppColors.primaryBlack,
-                                title: userModel.following != null
-                                    ? userModel.following!.length.toString()
-                                    : "0",
+                                titleColor: currentIndex == 2 ? AppColors.primaryWhite : AppColors.primaryBlack,
+                                subTitleColor: currentIndex == 2 ? AppColors.primaryWhite : AppColors.primaryBlack,
+                                title: userModel.following != null ? userModel.following!.length.toString() : "0",
                                 subTitle: "Following",
-                                btnColor: currentIndex == 2
-                                    ? AppColors.mainColor
-                                    : AppColors.primaryWhite,
+                                btnColor: currentIndex == 2 ? AppColors.mainColor : AppColors.primaryWhite,
                                 onPressed: () {
                                   setState(() {
                                     currentIndex = 2;
@@ -173,8 +156,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
             ),
             if (currentIndex == 0)
               Container(
-                margin:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                 height: MediaQuery.of(context).size.height * 0.6,
                 width: double.infinity,
                 child: GridView.builder(
@@ -187,8 +169,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                   itemBuilder: (context, index) {
                     return postController.myPostList[index].videoUrl == ""
                         ? CachedNetworkImage(
-                            imageUrl:
-                                postController.myPostList[index].postImages[0],
+                            imageUrl: postController.myPostList[index].postImages[0],
                             fit: BoxFit.cover,
                             placeholder: (context, url) => spinKit2,
                           )
@@ -202,8 +183,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                 ),
               ),
             if (currentIndex == 1)
-              widget.userModel!.followers != null &&
-                      widget.userModel!.followers!.isEmpty
+              widget.userModel!.followers != null && widget.userModel!.followers!.isEmpty
                   ? Padding(
                       padding: const EdgeInsets.only(top: 150),
                       child: Text(
@@ -221,9 +201,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                         stream: FirebaseFirestore.instance
                             .collection('users')
                             .where(FieldPath.documentId,
-                                whereIn: widget.userModel!.followers != null
-                                    ? widget.userModel!.followers!
-                                    : [])
+                                whereIn: widget.userModel!.followers != null ? widget.userModel!.followers! : [])
                             .snapshots(),
                         builder: (context, snapshot) {
                           if (!snapshot.hasData) {
@@ -245,9 +223,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                           return ListView.builder(
                             itemCount: snapshot.data!.docs.length,
                             itemBuilder: (context, index) {
-                              UserModel userModel =
-                                  UserModel.fromDocumentSnapshot(
-                                      snapshot.data!.docs[index]);
+                              UserModel userModel = UserModel.fromDocumentSnapshot(snapshot.data!.docs[index]);
                               return UserCustomCard(userModel: userModel);
                             },
                           );
@@ -255,8 +231,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                       ),
                     ),
             if (currentIndex == 2)
-              widget.userModel!.following != null &&
-                      widget.userModel!.following!.isEmpty
+              widget.userModel!.following != null && widget.userModel!.following!.isEmpty
                   ? Padding(
                       padding: const EdgeInsets.only(top: 150),
                       child: Text(
@@ -274,9 +249,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                         stream: FirebaseFirestore.instance
                             .collection('users')
                             .where(FieldPath.documentId,
-                                whereIn: widget.userModel!.following != null
-                                    ? widget.userModel!.following!
-                                    : [])
+                                whereIn: widget.userModel!.following != null ? widget.userModel!.following! : [])
                             .snapshots(),
                         builder: (context, snapshot) {
                           if (!snapshot.hasData) {
@@ -298,9 +271,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                           return ListView.builder(
                             itemCount: snapshot.data!.docs.length,
                             itemBuilder: (context, index) {
-                              UserModel userModel =
-                                  UserModel.fromDocumentSnapshot(
-                                      snapshot.data!.docs[index]);
+                              UserModel userModel = UserModel.fromDocumentSnapshot(snapshot.data!.docs[index]);
                               return UserCustomCard(userModel: userModel);
                             },
                           );

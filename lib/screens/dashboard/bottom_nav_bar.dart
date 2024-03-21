@@ -1,6 +1,5 @@
 import 'package:chitchat/screens/dashboard/profile_screen/profile_screen.dart';
 import 'package:chitchat/screens/dashboard/search_screen/search_screen.dart';
-import 'package:floating_bottom_navigation_bar/floating_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -20,7 +19,7 @@ class BottomNavBar extends StatefulWidget {
 
 class _BottomNavBarState extends State<BottomNavBar> {
   NotificationServices notificationServices = NotificationServices();
-  final List _screens = [
+  final List<Widget> _screens = [
     const HomeScreen(),
     const SearchScreen(),
     const AddPostScreen(),
@@ -28,56 +27,78 @@ class _BottomNavBarState extends State<BottomNavBar> {
     const ProfileScreen(),
   ];
   int currentIndex = 0;
+
   @override
   void initState() {
+    super.initState();
     Provider.of<UserController>(context, listen: false).getUserData();
     notificationServices.getPermission();
     notificationServices.initNotification(context);
     notificationServices.getDeviceToken();
-
-    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
-      bottomNavigationBar: FloatingNavbar(
-        elevation: 10,
-        borderRadius: 10,
-        margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-        selectedItemColor: AppColors.primaryWhite,
-        backgroundColor: AppColors.primaryColor,
-        unselectedItemColor: Colors.grey,
-        selectedBackgroundColor: AppColors.mainColor,
-        onTap: (int value) {
-          setState(() {
-            currentIndex = value;
-          });
-        },
-        items: [
-          FloatingNavbarItem(
-            icon: Icons.home,
-            title: "Home",
+      bottomNavigationBar: Container(
+        height: 70,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: AppColors.primaryBlack,
+          border: Border(
+            top: BorderSide(color: AppColors.primaryColor, width: 2),
           ),
-          FloatingNavbarItem(
-            icon: Icons.search,
-            title: "Search",
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    currentIndex = 0;
+                  });
+                },
+                child: Icon(Icons.home, color: currentIndex == 0 ? AppColors.primaryWhite : Colors.grey, size: 27),
+              ),
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    currentIndex = 1;
+                  });
+                },
+                child: Icon(Icons.search, color: currentIndex == 1 ? AppColors.primaryWhite : Colors.grey, size: 27),
+              ),
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    currentIndex = 2;
+                  });
+                },
+                child: Icon(Icons.add_box_outlined, color: currentIndex == 2 ? AppColors.primaryWhite : Colors.grey, size: 27),
+              ),
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    currentIndex = 3;
+                  });
+                },
+                child:
+                    Icon(Icons.notifications_on_sharp, color: currentIndex == 3 ? AppColors.primaryWhite : Colors.grey, size: 27),
+              ),
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    currentIndex = 4;
+                  });
+                },
+                child: Icon(Icons.person, color: currentIndex == 4 ? AppColors.primaryWhite : Colors.grey, size: 27),
+              ),
+            ],
           ),
-          FloatingNavbarItem(
-            icon: Icons.upload,
-            title: "Upload",
-          ),
-          FloatingNavbarItem(
-            icon: Icons.notification_important_outlined,
-            title: "Alerts",
-          ),
-          FloatingNavbarItem(
-            icon: Icons.person,
-            title: "Profile",
-          ),
-        ],
-        currentIndex: currentIndex,
+        ),
       ),
       body: _screens[currentIndex],
     );

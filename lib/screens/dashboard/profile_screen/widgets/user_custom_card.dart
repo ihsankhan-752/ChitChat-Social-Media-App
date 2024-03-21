@@ -55,10 +55,7 @@ class UserCustomCard extends StatelessWidget {
               navigateToNext(
                   context,
                   ChatScreen(
-                    userId: userModel.uid,
-                    userBio: userModel.bio,
-                    userImage: userModel.imageUrl,
-                    username: userModel.username,
+                    userModel: userModel,
                   ));
             },
           ),

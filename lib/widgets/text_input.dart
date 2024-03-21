@@ -1,5 +1,9 @@
+import 'package:chitchat/providers/loading_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
+import '../providers/user_controller.dart';
 import '../themes/colors.dart';
 import '../utils/text_styles.dart';
 
@@ -80,6 +84,65 @@ class TextInputForSearch extends StatelessWidget {
           hintStyle: const TextStyle(
             color: Colors.white,
           )),
+    );
+  }
+}
+
+class CommentTextInput extends StatelessWidget {
+  final TextEditingController? controller;
+  final Function()? onPressed;
+
+  const CommentTextInput({super.key, this.controller, this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    final userController = Provider.of<UserController>(context);
+    final loadingController = Provider.of<LoadingController>(context);
+    return Container(
+      margin: const EdgeInsets.only(top: 15, bottom: 12, left: 10, right: 10),
+      decoration: BoxDecoration(
+        color: AppColors.primaryColor,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.only(left: 10, top: 5, right: 5, bottom: 5),
+        child: Row(
+          children: [
+            CircleAvatar(
+              radius: 15,
+              backgroundImage: NetworkImage(userController.userModel.imageUrl!),
+            ),
+            const SizedBox(width: 10),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.65,
+              child: TextField(
+                controller: controller,
+                style: const TextStyle(
+                  color: Colors.grey,
+                ),
+                decoration: InputDecoration(
+                    border: InputBorder.none,
+                    contentPadding: const EdgeInsets.only(top: 0, bottom: 2),
+                    hintText: "comment as ${userController.userModel.username}",
+                    hintStyle: const TextStyle(
+                      color: Colors.grey,
+                    )),
+              ),
+            ),
+            const SizedBox(width: 20),
+            Expanded(
+              child: InkWell(
+                  onTap: onPressed,
+                  child: loadingController.isLoading
+                      ? Center(child: CircularProgressIndicator(color: AppColors.btnColor))
+                      : Icon(
+                          FontAwesomeIcons.paperPlane,
+                          color: AppColors.primaryWhite,
+                        )),
+            )
+          ],
+        ),
+      ),
     );
   }
 }

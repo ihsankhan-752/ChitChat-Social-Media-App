@@ -1,12 +1,12 @@
 import 'dart:io';
 
+import 'package:chitchat/services/post_services.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../dummy_screen.dart';
 import '../../../../providers/file_controller.dart';
 import '../../../../providers/loading_controller.dart';
-import '../../../../providers/post_controller.dart';
 import '../../../../providers/user_controller.dart';
 import '../../../../themes/colors.dart';
 import '../../../../utils/screen_navigations.dart';
@@ -16,8 +16,7 @@ class PostVideoUploadingWidget extends StatefulWidget {
   const PostVideoUploadingWidget({super.key});
 
   @override
-  State<PostVideoUploadingWidget> createState() =>
-      _PostVideoUploadingWidgetState();
+  State<PostVideoUploadingWidget> createState() => _PostVideoUploadingWidgetState();
 }
 
 class _PostVideoUploadingWidgetState extends State<PostVideoUploadingWidget> {
@@ -50,7 +49,7 @@ class _PostVideoUploadingWidgetState extends State<PostVideoUploadingWidget> {
           const SizedBox(width: 20),
           IconButton(
               onPressed: () async {
-                await PostController().uploadVideoInPost(
+                await PostServices().uploadVideoInPost(
                   context: context,
                   videoUrl: fileController.pickedFile!,
                   postMsg: postController.text,
@@ -68,8 +67,7 @@ class _PostVideoUploadingWidgetState extends State<PostVideoUploadingWidget> {
             loadingController.isLoading
                 ? Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: LinearProgressIndicator(
-                        color: AppColors.appCircularRadius),
+                    child: LinearProgressIndicator(color: AppColors.appCircularRadius),
                   )
                 : const SizedBox(),
             fileController.pickedFile == null
@@ -94,8 +92,7 @@ class _PostVideoUploadingWidgetState extends State<PostVideoUploadingWidget> {
                         children: [
                           CircleAvatar(
                             radius: 25,
-                            backgroundImage: NetworkImage(
-                                userController.userModel.imageUrl!),
+                            backgroundImage: NetworkImage(userController.userModel.imageUrl!),
                           ),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 10),

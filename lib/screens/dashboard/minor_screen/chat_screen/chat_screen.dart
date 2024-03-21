@@ -2,6 +2,7 @@
 
 import 'dart:io';
 
+import 'package:chitchat/models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -14,11 +15,12 @@ import '../../../../utils/custom_messanger.dart';
 import '../../widgets/message_text_input.dart';
 
 class ChatScreen extends StatefulWidget {
-  final String? username;
-  final String? userImage;
-  final String? userBio;
-  final String? userId;
-  const ChatScreen({Key? key, this.username, this.userImage, this.userBio, this.userId}) : super(key: key);
+  final UserModel userModel;
+  // final String? username;
+  // final String? userImage;
+  // final String? userBio;
+  // final String? userId;
+  const ChatScreen({Key? key, required this.userModel}) : super(key: key);
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
@@ -32,10 +34,10 @@ class _ChatScreenState extends State<ChatScreen> {
   String myId = FirebaseAuth.instance.currentUser!.uid;
   @override
   void initState() {
-    if (myId.hashCode > widget.userId.hashCode) {
-      docId = myId + widget.userId!;
+    if (myId.hashCode > widget.userModel.uid.hashCode) {
+      docId = myId + widget.userModel.uid!;
     } else {
-      docId = widget.userId! + myId;
+      docId = widget.userModel.uid! + myId;
     }
     super.initState();
   }
@@ -56,14 +58,14 @@ class _ChatScreenState extends State<ChatScreen> {
         title: ListTile(
           leading: CircleAvatar(
             radius: 20,
-            backgroundImage: NetworkImage(widget.userImage!),
+            backgroundImage: NetworkImage(widget.userModel.imageUrl!),
           ),
           title: Text(
-            widget.username!,
+            widget.userModel.username!,
             style: TextStyle(color: AppColors.primaryWhite, fontSize: 14),
           ),
           subtitle: Text(
-            widget.userBio!,
+            widget.userModel.bio!,
             style: const TextStyle(color: Colors.grey, fontSize: 12),
           ),
         ),
@@ -97,7 +99,7 @@ class _ChatScreenState extends State<ChatScreen> {
                               await fireStoreServices().userChat(
                                 context: context,
                                 myId: myId,
-                                userId: widget.userId!,
+                                userId: widget.userModel.uid!,
                                 docId: docId,
                                 msg: msgController.text.isEmpty ? "" : msgController.text,
                                 imageUrl: imageUrl.isEmpty ? "" : imageUrl,
@@ -169,8 +171,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     itemBuilder: (context, index) {
                       var userData = snapshot.data!.docs[index];
                       return Row(
-                        mainAxisAlignment:
-                            userData['senderId'] == myId ? MainAxisAlignment.start : MainAxisAlignment.end,
+                        mainAxisAlignment: userData['senderId'] == myId ? MainAxisAlignment.start : MainAxisAlignment.end,
                         children: [
                           Container(
                             margin: const EdgeInsets.symmetric(vertical: 05, horizontal: 20),
@@ -259,7 +260,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   await fireStoreServices().userChat(
                     context: context,
                     myId: myId,
-                    userId: widget.userId!,
+                    userId: widget.userModel.uid!,
                     docId: docId,
                     msg: msgController.text.isEmpty ? "" : msgController.text,
                     imageUrl: "",

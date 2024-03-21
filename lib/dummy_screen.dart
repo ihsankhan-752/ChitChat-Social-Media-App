@@ -40,7 +40,7 @@ class _VideoLinkScreenState extends State<VideoLinkScreen> {
               ? Container(
                   height: 200,
                   color: Colors.red,
-                  child: Center(
+                  child: const Center(
                     child: Text("No File Selected"),
                   ),
                 )

@@ -1,8 +1,6 @@
-import 'package:chitchat/screens/dashboard/home/widgets/like_comment_and_share_btn_widget.dart';
-import 'package:chitchat/screens/dashboard/home/widgets/post_footer.dart';
-import 'package:chitchat/screens/dashboard/home/widgets/post_header.dart';
-import 'package:chitchat/screens/dashboard/home/widgets/post_main_card.dart';
+import 'package:chitchat/screens/dashboard/home/widgets/custom_post_card.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -35,17 +33,18 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
+        leading: Icon(Icons.camera_alt_outlined, color: AppColors.primaryWhite),
         title: Text("Chit Chat",
-            style: GoogleFonts.pacifico(
-              fontSize: 24,
+            style: GoogleFonts.satisfy(
+              fontSize: 22,
               fontWeight: FontWeight.w900,
-              color: AppColors.primaryWhite.withOpacity(0.7),
+              color: AppColors.primaryWhite,
               letterSpacing: 2.5,
             )),
         centerTitle: false,
         actions: [
           IconButton(
-            icon: Icon(Icons.message, color: AppColors.primaryWhite),
+            icon: Icon(FontAwesomeIcons.paperPlane, color: AppColors.primaryWhite),
             onPressed: () {
               navigateToNext(context, const UserListForChatScreen());
             },
@@ -55,6 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            Divider(thickness: 0.5),
             // const StoryCard(),
             const Divider(thickness: 0.1, color: Colors.grey),
             if (postController.postList.isEmpty)
@@ -66,42 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   padding: const EdgeInsets.only(bottom: 120),
                   itemCount: postController.postList.length,
                   itemBuilder: (context, index) {
-                    postController.postList.length;
-                    return Card(
-                      margin: const EdgeInsets.only(bottom: 15),
-                      elevation: 32,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        side:
-                            BorderSide(color: AppColors.primaryColor, width: 3),
-                      ),
-                      color: AppColors.primaryBlack,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          PostHeader(
-                            postController: postController,
-                            index: index,
-                          ),
-                          Row(
-                            children: [
-                              LikeCommentShareButtonWidget(
-                                  postController: postController, index: index),
-                              PostMainCard(
-                                  postController: postController, index: index),
-                            ],
-                          ),
-                          const SizedBox(height: 10),
-                          Divider(
-                              color: AppColors.primaryColor,
-                              height: 0.1,
-                              thickness: 1),
-                          PostFooter(
-                              postController: postController, index: index),
-                          const SizedBox(height: 10),
-                        ],
-                      ),
-                    );
+                    return CustomPostCard(postController: postController, index: index);
                   },
                 ),
               )

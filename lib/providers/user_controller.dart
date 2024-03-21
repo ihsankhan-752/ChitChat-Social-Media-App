@@ -40,6 +40,8 @@ class UserController extends ChangeNotifier {
           .doc(FirebaseAuth.instance.currentUser!.uid)
           .get();
 
+      print("Test 1");
+
       if (snap['followers'].contains(FirebaseAuth.instance.currentUser!.uid)) {
         await FirebaseFirestore.instance
             .collection('users')

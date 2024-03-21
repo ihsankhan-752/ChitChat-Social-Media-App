@@ -14,8 +14,7 @@ import '../minor_screen/comment_screen/widgets/reply_adding_widget.dart';
 
 class CommentSnapCard extends StatefulWidget {
   final CommentModel commentModel;
-  const CommentSnapCard({Key? key, required this.commentModel})
-      : super(key: key);
+  const CommentSnapCard({Key? key, required this.commentModel}) : super(key: key);
 
   @override
   State<CommentSnapCard> createState() => _CommentSnapCardState();
@@ -28,9 +27,8 @@ class _CommentSnapCardState extends State<CommentSnapCard> {
   final replyId = const Uuid().v1();
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 12,
-      color: AppColors.primaryColor,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
       child: Column(
         children: [
           const SizedBox(height: 05),
@@ -40,7 +38,7 @@ class _CommentSnapCardState extends State<CommentSnapCard> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CircleAvatar(
-                  radius: 15,
+                  radius: 20,
                   backgroundImage: NetworkImage(widget.commentModel.userImage),
                 ),
                 const SizedBox(width: 20),
@@ -55,14 +53,15 @@ class _CommentSnapCardState extends State<CommentSnapCard> {
                         style: GoogleFonts.poppins(
                           color: AppColors.primaryWhite,
                           fontWeight: FontWeight.bold,
-                          fontSize: 15,
+                          fontSize: 10,
                         ),
                       ),
+                      SizedBox(height: 4),
                       Text(
                         widget.commentModel.comment,
                         style: GoogleFonts.poppins(
                           color: AppColors.primaryWhite,
-                          fontSize: 13,
+                          fontSize: 14,
                         ),
                       ),
                       const SizedBox(height: 5),
@@ -100,7 +99,7 @@ class _CommentSnapCardState extends State<CommentSnapCard> {
                               })
                         ],
                       ),
-                      const SizedBox(height: 08),
+                      const SizedBox(height: 04),
                       DisplayAllReplayWidget(
                         postId: widget.commentModel.postId,
                         commentId: widget.commentModel.commentId,
@@ -114,25 +113,20 @@ class _CommentSnapCardState extends State<CommentSnapCard> {
                   height: 20,
                   margin: const EdgeInsets.only(right: 5),
                   child: IconButton(
-                    icon: widget.commentModel.likes
-                            .contains(FirebaseAuth.instance.currentUser!.uid)
-                        ? const Icon(Icons.favorite,
-                            color: Colors.red, size: 15)
-                        : const Icon(Icons.favorite_border,
-                            color: Colors.grey, size: 15),
+                    icon: widget.commentModel.likes.contains(FirebaseAuth.instance.currentUser!.uid)
+                        ? const Icon(Icons.favorite, color: Colors.red, size: 20)
+                        : const Icon(Icons.favorite_border, color: Colors.grey, size: 20),
                     onPressed: () async {
                       String commentId = widget.commentModel.commentId;
-                      await CommentServices().likeComment(
-                          context,
-                          widget.commentModel.postId,
-                          commentId,
-                          widget.commentModel.likes);
+                      await CommentServices()
+                          .likeComment(context, widget.commentModel.postId, commentId, widget.commentModel.likes);
                     },
                   ),
                 )
               ],
             ),
           ),
+          Divider(color: Colors.grey, thickness: 0.5),
         ],
       ),
     );

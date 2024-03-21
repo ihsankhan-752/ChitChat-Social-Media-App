@@ -12,8 +12,7 @@ import '../../../../widgets/custom_alert_dialog.dart';
 class PostHeader extends StatelessWidget {
   final PostController postController;
   final int index;
-  const PostHeader(
-      {super.key, required this.postController, required this.index});
+  const PostHeader({super.key, required this.postController, required this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -48,8 +47,7 @@ class PostHeader extends StatelessWidget {
           color: Colors.grey,
         ),
       ),
-      trailing: postController.postList[index].uid ==
-              FirebaseAuth.instance.currentUser!.uid
+      trailing: postController.postList[index].uid == FirebaseAuth.instance.currentUser!.uid
           ? InkWell(
               onTap: () {
                 showCustomAlertDialog(

@@ -1,3 +1,5 @@
+import 'package:chitchat/providers/chat_controller.dart';
+import 'package:chitchat/providers/comment_controller.dart';
 import 'package:chitchat/providers/file_controller.dart';
 import 'package:chitchat/providers/image_controller.dart';
 import 'package:chitchat/providers/loading_controller.dart';
@@ -36,19 +38,26 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => FileController()),
         ChangeNotifierProvider(create: (_) => UserController()),
         ChangeNotifierProvider(create: (_) => PostController()),
+        ChangeNotifierProvider(create: (_) => CommentController()),
+        ChangeNotifierProvider(create: (_) => ChatController()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-            primaryColor: AppColors.primaryBlack,
-            scaffoldBackgroundColor: Colors.black12,
-            appBarTheme: AppBarTheme(
-                backgroundColor: AppColors.primaryBlack,
-                centerTitle: true,
-                titleTextStyle: GoogleFonts.acme(
-                  fontSize: 18,
-                  color: AppColors.primaryWhite,
-                ))),
+          primaryColor: AppColors.primaryBlack,
+          scaffoldBackgroundColor: Colors.black12,
+          appBarTheme: AppBarTheme(
+            iconTheme: IconThemeData(
+              color: AppColors.primaryWhite,
+            ),
+            backgroundColor: AppColors.primaryBlack,
+            centerTitle: true,
+            titleTextStyle: GoogleFonts.acme(
+              fontSize: 18,
+              color: AppColors.primaryWhite,
+            ),
+          ),
+        ),
 
         // home: VideoLinkScreen(),
         home: const SplashScreen(),

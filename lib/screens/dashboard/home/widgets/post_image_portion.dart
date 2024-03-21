@@ -7,11 +7,10 @@ import '../../../../themes/colors.dart';
 import '../../../../utils/constants.dart';
 import '../../widgets/video_player_for_display_video.dart';
 
-class PostMainCard extends StatelessWidget {
+class PostImagePortion extends StatelessWidget {
   final PostController postController;
   final int index;
-  const PostMainCard(
-      {super.key, required this.postController, required this.index});
+  const PostImagePortion({super.key, required this.postController, required this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -27,13 +26,9 @@ class PostMainCard extends StatelessWidget {
                 ),
               )
             : Container(
-                margin:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                margin: const EdgeInsets.symmetric(vertical: 10),
                 height: MediaQuery.of(context).size.height * 0.45,
-                width: width * 0.7,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                ),
+                width: width * 1,
                 child: Swiper(
                   controller: SwiperController(),
                   pagination: SwiperPagination(
@@ -51,14 +46,10 @@ class PostMainCard extends StatelessWidget {
                       child: Stack(
                         fit: StackFit.expand,
                         children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: CachedNetworkImage(
-                              imageUrl:
-                                  postController.postList[index].postImages[i],
-                              fit: BoxFit.cover,
-                              placeholder: (context, url) => spinKit2,
-                            ),
+                          CachedNetworkImage(
+                            imageUrl: postController.postList[index].postImages[i],
+                            fit: BoxFit.cover,
+                            placeholder: (context, url) => spinKit2,
                           ),
                         ],
                       ),

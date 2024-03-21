@@ -75,8 +75,7 @@ class ProfileScreenMainButton extends StatelessWidget {
   final Color? borderColor;
   final Function()? onPressed;
   final String? title;
-  const ProfileScreenMainButton({Key? key, this.btnColor, this.borderColor, this.onPressed, this.title})
-      : super(key: key);
+  const ProfileScreenMainButton({Key? key, this.btnColor, this.borderColor, this.onPressed, this.title}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -86,8 +85,8 @@ class ProfileScreenMainButton extends StatelessWidget {
       child: Container(
         height: 35,
         width: 100,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(08), color: btnColor, border: Border.all(color: borderColor!)),
+        decoration:
+            BoxDecoration(borderRadius: BorderRadius.circular(08), color: btnColor, border: Border.all(color: borderColor!)),
         child: Center(
           child: Text(
             title!,
@@ -121,10 +120,9 @@ class CustomNeumorphicButton extends StatelessWidget {
       topLeftShadowSpreadRadius: 1,
       topLeftShadowColor: Colors.grey.shade800,
       bottomRightShadowColor: Colors.grey.shade900,
-      height: width * 0.25,
+      height: width * 0.1,
       width: width * 0.14,
       padding: const EdgeInsets.all(10),
-      margin: const EdgeInsets.only(top: 15, left: 10),
       bottomRightOffset: const Offset(-1, -1),
       topLeftOffset: const Offset(0, 0),
       child: Column(
@@ -158,13 +156,7 @@ class ProfileScreenButton extends StatelessWidget {
   final Color? subTitleColor;
 
   const ProfileScreenButton(
-      {super.key,
-      required this.onPressed,
-      this.btnColor,
-      this.title,
-      this.subTitle,
-      this.titleColor,
-      this.subTitleColor});
+      {super.key, required this.onPressed, this.btnColor, this.title, this.subTitle, this.titleColor, this.subTitleColor});
 
   @override
   Widget build(BuildContext context) {

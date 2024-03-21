@@ -1,11 +1,11 @@
 import 'dart:io';
 
+import 'package:chitchat/services/post_services.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../providers/image_controller.dart';
 import '../../../../providers/loading_controller.dart';
-import '../../../../providers/post_controller.dart';
 import '../../../../providers/user_controller.dart';
 import '../../../../themes/colors.dart';
 
@@ -13,8 +13,7 @@ class PostImageUploadingWidget extends StatefulWidget {
   const PostImageUploadingWidget({super.key});
 
   @override
-  State<PostImageUploadingWidget> createState() =>
-      _PostImageUploadingWidgetState();
+  State<PostImageUploadingWidget> createState() => _PostImageUploadingWidgetState();
 }
 
 class _PostImageUploadingWidgetState extends State<PostImageUploadingWidget> {
@@ -31,7 +30,7 @@ class _PostImageUploadingWidgetState extends State<PostImageUploadingWidget> {
         actions: [
           InkWell(
             onTap: () async {
-              await PostController().uploadPostImages(
+              await PostServices().uploadPostImages(
                 context: context,
                 imageFileList: imageController.imageFileList!,
                 postMsg: postController.text,
@@ -67,8 +66,7 @@ class _PostImageUploadingWidgetState extends State<PostImageUploadingWidget> {
             children: [
               CircleAvatar(
                 radius: 25,
-                backgroundImage:
-                    NetworkImage(userController.userModel.imageUrl!),
+                backgroundImage: NetworkImage(userController.userModel.imageUrl!),
               ),
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.6,
