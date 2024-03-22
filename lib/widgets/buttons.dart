@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:neumorphic_button/neumorphic_button.dart';
 
 import '../themes/colors.dart';
@@ -193,6 +194,27 @@ class ProfileScreenButton extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class TextSendingButton extends StatelessWidget {
+  final VoidCallback? onPressed;
+  const TextSendingButton({super.key, this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onPressed,
+      child: Container(
+        height: 60,
+        width: 60,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: AppColors.primaryColor,
+        ),
+        child: Icon(FontAwesomeIcons.paperPlane, color: AppColors.primaryWhite, size: 20),
       ),
     );
   }

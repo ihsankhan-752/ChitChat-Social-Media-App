@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class MessageModel {
   String? image;
   String? msg;
@@ -26,14 +28,14 @@ class MessageModel {
     };
   }
 
-  factory MessageModel.fromMap(Map<String, dynamic> map) {
+  factory MessageModel.fromMap(DocumentSnapshot map) {
     return MessageModel(
       image: map['image'] as String,
       msg: map['msg'] as String,
       senderId: map['senderId'] as String,
       userImage: map['userImage'] as String,
       username: map['username'] as String,
-      createdAt: map['createdAt'] as DateTime,
+      createdAt: (map['createdAt'].toDate()),
     );
   }
 }

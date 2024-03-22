@@ -16,7 +16,23 @@ class ChatController extends ChangeNotifier {
   List<UserModel> _userModel = [];
   List<UserModel> get userModel => _userModel;
 
-  Future<void> getAllMessages() async {}
+  Future<void> getAllMessages(String docId) async {
+    await FirebaseFirestore.instance
+        .collection('chat')
+        .doc(docId)
+        .collection("messages")
+        .orderBy("createdAt", descending: true)
+        .snapshots()
+        .listen((chatSnap) {
+      _messageModel.clear();
+
+      for (var messages in chatSnap.docs) {
+        MessageModel _newMsgModel = MessageModel.fromMap(messages);
+        _messageModel.add(_newMsgModel);
+      }
+      notifyListeners();
+    });
+  }
 
   Future<void> getAllUsers() async {
     await FirebaseFirestore.instance
