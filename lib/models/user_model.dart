@@ -6,6 +6,7 @@ class UserModel {
   final String? bio;
   final List? followers;
   final List? following;
+  final List? bookMarks;
   final String? uid;
   final String? imageUrl;
 
@@ -17,6 +18,7 @@ class UserModel {
     this.followers,
     this.bio,
     this.username,
+    this.bookMarks,
   });
 
   Map<String, dynamic> toMap() {
@@ -28,18 +30,19 @@ class UserModel {
       "followers": followers,
       "following": following,
       "imageUrl": imageUrl,
+      'bookMarks': bookMarks,
     };
   }
 
   factory UserModel.fromDocumentSnapshot(DocumentSnapshot snap) {
     return UserModel(
-      uid: snap['uid'],
-      username: snap['username'],
-      email: snap['email'],
-      bio: snap['bio'],
-      followers: snap['followers'],
-      following: snap['following'],
-      imageUrl: snap['imageUrl'],
-    );
+        uid: snap['uid'],
+        username: snap['username'],
+        email: snap['email'],
+        bio: snap['bio'],
+        followers: snap['followers'],
+        following: snap['following'],
+        imageUrl: snap['imageUrl'],
+        bookMarks: snap['bookMarks']);
   }
 }

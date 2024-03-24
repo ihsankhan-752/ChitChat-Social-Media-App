@@ -109,4 +109,20 @@ class PostServices {
       print(e);
     }
   }
+
+  Future<void> savePost(List bookMarkList, String postId) async {
+    try {
+      if (bookMarkList.contains(postId)) {
+        await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).update({
+          'bookMarks': FieldValue.arrayRemove([postId]),
+        });
+      } else {
+        await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).update({
+          'bookMarks': FieldValue.arrayUnion([postId]),
+        });
+      }
+    } on FirebaseException catch (e) {
+      print(e);
+    }
+  }
 }

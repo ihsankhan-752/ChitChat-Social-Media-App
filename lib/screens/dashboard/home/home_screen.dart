@@ -1,4 +1,6 @@
+import 'package:chitchat/providers/user_controller.dart';
 import 'package:chitchat/screens/dashboard/home/widgets/custom_post_card.dart';
+import 'package:chitchat/screens/dashboard/minor_screen/save_posts_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -30,6 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final postController = Provider.of<PostController>(context);
+    final userController = Provider.of<UserController>(context);
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -47,6 +50,12 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: Icon(FontAwesomeIcons.paperPlane, color: AppColors.primaryWhite),
             onPressed: () {
               navigateToNext(context, const UserListForChatScreen());
+            },
+          ),
+          IconButton(
+            icon: Icon(Icons.bookmark, color: AppColors.primaryWhite),
+            onPressed: () {
+              navigateToNext(context, SavePostsScreen());
             },
           )
         ],
@@ -66,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   padding: const EdgeInsets.only(bottom: 120),
                   itemCount: postController.postList.length,
                   itemBuilder: (context, index) {
-                    return CustomPostCard(postController: postController, index: index);
+                    return CustomPostCard(postModel: postController.postList[index]);
                   },
                 ),
               )

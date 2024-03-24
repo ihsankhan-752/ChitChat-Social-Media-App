@@ -43,7 +43,7 @@ class _CommentScreenState extends State<CommentScreen> {
             postCreatorId: widget.postCreatorId,
           );
           setState(() {
-            commentController.clear();
+            commentTextController.clear();
             FocusScope.of(context).unfocus();
           });
         },

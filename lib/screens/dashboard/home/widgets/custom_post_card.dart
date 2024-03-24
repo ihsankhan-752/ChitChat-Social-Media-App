@@ -1,4 +1,4 @@
-import 'package:chitchat/providers/post_controller.dart';
+import 'package:chitchat/models/post_model.dart';
 import 'package:chitchat/screens/dashboard/home/widgets/post_footer.dart';
 import 'package:chitchat/screens/dashboard/home/widgets/post_header.dart';
 import 'package:chitchat/screens/dashboard/home/widgets/post_image_portion.dart';
@@ -11,9 +11,8 @@ import 'like_comment_and_share_btn_widget.dart';
 import 'list_of_user_who_like_post.dart';
 
 class CustomPostCard extends StatelessWidget {
-  final PostController postController;
-  final int index;
-  const CustomPostCard({super.key, required this.postController, required this.index});
+  final PostModel postModel;
+  const CustomPostCard({super.key, required this.postModel});
 
   @override
   Widget build(BuildContext context) {
@@ -29,31 +28,28 @@ class CustomPostCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           PostHeader(
-            postController: postController,
-            index: index,
+            postModel: postModel,
           ),
           PostImagePortion(
-            postController: postController,
-            index: index,
+            postModel: postModel,
           ),
           LikeCommentShareButtonWidget(
-            postId: postController.postList[index].postId,
-            postController: postController,
-            index: index,
+            postId: postModel.postId,
+            postModel: postModel,
           ),
           SizedBox(height: 15),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: InkWell(
               onTap: () {
-                if (postController.postList[index].likes.isEmpty) {
+                if (postModel.likes.isEmpty) {
                   showMessage(context, "No One Like This Post");
                 } else {
-                  navigateToNext(context, ListOfUsersWhoLikePost(likes: postController.postList[index].likes));
+                  navigateToNext(context, ListOfUsersWhoLikePost(likes: postModel.likes));
                 }
               },
               child: Text(
-                "${postController.postList[index].likes.length}  likes",
+                "${postModel.likes.length}  likes",
                 style: TextStyle(
                   color: AppColors.primaryWhite,
                   fontSize: 12,
@@ -64,7 +60,7 @@ class CustomPostCard extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           Divider(color: AppColors.primaryColor, height: 0.1, thickness: 1),
-          PostFooter(postController: postController, index: index),
+          PostFooter(postModel: postModel),
           const SizedBox(height: 10),
         ],
       ),

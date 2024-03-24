@@ -1,16 +1,15 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:chitchat/models/post_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 
-import '../../../../providers/post_controller.dart';
 import '../../../../themes/colors.dart';
 import '../../../../utils/constants.dart';
 import '../../widgets/video_player_for_display_video.dart';
 
 class PostImagePortion extends StatelessWidget {
-  final PostController postController;
-  final int index;
-  const PostImagePortion({super.key, required this.postController, required this.index});
+  final PostModel postModel;
+  const PostImagePortion({super.key, required this.postModel});
 
   @override
   Widget build(BuildContext context) {
@@ -18,11 +17,11 @@ class PostImagePortion extends StatelessWidget {
 
     return Column(
       children: [
-        postController.postList[index].videoUrl != ""
+        postModel.videoUrl != ""
             ? SizedBox(
                 height: MediaQuery.of(context).size.height * 0.45,
                 child: VideoPlayerForDisplayVideo(
-                  path: postController.postList[index].videoUrl,
+                  path: postModel.videoUrl,
                 ),
               )
             : Container(
@@ -39,7 +38,7 @@ class PostImagePortion extends StatelessWidget {
                       activeFontSize: 22,
                     ),
                   ),
-                  itemCount: postController.postList[index].postImages.length,
+                  itemCount: postModel.postImages.length,
                   itemBuilder: (context, i) {
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -47,7 +46,7 @@ class PostImagePortion extends StatelessWidget {
                         fit: StackFit.expand,
                         children: [
                           CachedNetworkImage(
-                            imageUrl: postController.postList[index].postImages[i],
+                            imageUrl: postModel.postImages[i],
                             fit: BoxFit.cover,
                             placeholder: (context, url) => spinKit2,
                           ),

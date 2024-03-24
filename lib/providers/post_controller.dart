@@ -84,7 +84,7 @@ class PostController extends ChangeNotifier {
     try {
       QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('posts').where('uid', isEqualTo: userId).get();
       if (snapshot.docs.isNotEmpty) {
-        myPostList.clear();
+        _myPostList.clear();
         for (var i in snapshot.docs) {
           PostModel postModel = PostModel.fromDoc(i);
           _myPostList.add(postModel);

@@ -99,7 +99,8 @@ class CommentTextInput extends StatelessWidget {
     final userController = Provider.of<UserController>(context);
     final loadingController = Provider.of<LoadingController>(context);
     return Container(
-      margin: const EdgeInsets.only(top: 15, bottom: 12, left: 10, right: 10),
+      height: 60,
+      margin: EdgeInsets.only(top: 15, bottom: MediaQuery.of(context).viewInsets.bottom + 10, left: 10, right: 10),
       decoration: BoxDecoration(
         color: AppColors.primaryColor,
         borderRadius: BorderRadius.circular(10),
@@ -130,16 +131,14 @@ class CommentTextInput extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 20),
-            Expanded(
-              child: InkWell(
-                  onTap: onPressed,
-                  child: loadingController.isLoading
-                      ? Center(child: CircularProgressIndicator(color: AppColors.btnColor))
-                      : Icon(
-                          FontAwesomeIcons.paperPlane,
-                          color: AppColors.primaryWhite,
-                        )),
-            )
+            InkWell(
+                onTap: onPressed,
+                child: loadingController.isLoading
+                    ? Center(child: CircularProgressIndicator(color: AppColors.btnColor))
+                    : Icon(
+                        FontAwesomeIcons.paperPlane,
+                        color: AppColors.primaryWhite,
+                      ))
           ],
         ),
       ),
