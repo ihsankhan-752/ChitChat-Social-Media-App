@@ -1,7 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../themes/colors.dart';
+import '../../../../utils/constants.dart';
 
 class ProfileHeader extends StatelessWidget {
   final String userImage, username, bio;
@@ -17,11 +19,12 @@ class ProfileHeader extends StatelessWidget {
           child: Container(
             height: height * 0.1,
             width: width * 0.2,
-            decoration: BoxDecoration(
+            child: ClipRRect(
               borderRadius: BorderRadius.circular(10),
-              image: DecorationImage(
-                image: NetworkImage(userImage),
+              child: CachedNetworkImage(
+                imageUrl: userImage,
                 fit: BoxFit.cover,
+                placeholder: (context, url) => spinKit2,
               ),
             ),
           ),

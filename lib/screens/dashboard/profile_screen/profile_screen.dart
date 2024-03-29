@@ -1,10 +1,10 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:chitchat/screens/dashboard/profile_screen/widgets/custom_drawer.dart';
 import 'package:chitchat/screens/dashboard/profile_screen/widgets/profile_header.dart';
 import 'package:chitchat/screens/dashboard/profile_screen/widgets/show_user_followers.dart';
 import 'package:chitchat/screens/dashboard/profile_screen/widgets/show_user_following.dart';
 import 'package:chitchat/screens/dashboard/profile_screen/widgets/show_user_posts.dart';
-import 'package:chitchat/widgets/dialogs.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -38,9 +38,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
     double height = MediaQuery.sizeOf(context).height * 1;
     double width = MediaQuery.sizeOf(context).width * 1;
     return Scaffold(
+      drawer: CustomDrawer(),
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: true,
         centerTitle: true,
+        iconTheme: IconThemeData(
+          color: Colors.white,
+        ),
         title: Text(
           "Profile",
           style: GoogleFonts.poppins(
@@ -49,23 +53,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        actions: [
-          InkWell(
-            onTap: () async {
-              showDialog(
-                  context: context,
-                  builder: (_) {
-                    return logOutDialog(context);
-                  });
-            },
-            child: SizedBox(
-              height: 25,
-              width: 25,
-              child: Image.asset('assets/images/logOut.png', color: AppColors.primaryWhite),
-            ),
-          ),
-          SizedBox(width: 10),
-        ],
       ),
       body: SingleChildScrollView(
         child: Column(

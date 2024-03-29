@@ -34,7 +34,7 @@ class LikeCommentShareButtonWidget extends StatelessWidget {
 
                 return GestureDetector(
                   onTap: () {
-                    PostServices().likeAndUnlikePost(_post, postId!);
+                    PostServices().likeAndUnlikePost(context, _post, postId!);
                   },
                   child: Icon(
                     _post.likes.contains(FirebaseAuth.instance.currentUser!.uid) ? Icons.favorite : Icons.favorite_border,

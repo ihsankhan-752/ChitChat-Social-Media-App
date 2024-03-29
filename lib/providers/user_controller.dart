@@ -13,17 +13,14 @@ class UserController extends ChangeNotifier {
 
   getUserData() async {
     try {
-      DocumentSnapshot snapshot = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(FirebaseAuth.instance.currentUser!.uid)
-          .get();
-
-      if (snapshot.exists) {
-        _userModel = UserModel.fromDocumentSnapshot(snapshot);
-      } else {
-        throw 'No User Found';
-      }
-      notifyListeners();
+      await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).snapshots().listen((snap) {
+        if (snap.exists) {
+          _userModel = UserModel.fromDocumentSnapshot(snap);
+        } else {
+          throw 'No User Found';
+        }
+        notifyListeners();
+      });
     } on FirebaseException catch (e) {
       print(e);
     }
@@ -31,45 +28,26 @@ class UserController extends ChangeNotifier {
 
   followAndUnFollowUser(BuildContext context, String userId) async {
     try {
-      DocumentSnapshot snap = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(userId)
-          .get();
-      DocumentSnapshot userSnap = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(FirebaseAuth.instance.currentUser!.uid)
-          .get();
+      DocumentSnapshot snap = await FirebaseFirestore.instance.collection('users').doc(userId).get();
+      DocumentSnapshot userSnap =
+          await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).get();
 
       print("Test 1");
 
       if (snap['followers'].contains(FirebaseAuth.instance.currentUser!.uid)) {
-        await FirebaseFirestore.instance
-            .collection('users')
-            .doc(userId)
-            .update({
-          'followers':
-              FieldValue.arrayRemove([FirebaseAuth.instance.currentUser!.uid]),
+        await FirebaseFirestore.instance.collection('users').doc(userId).update({
+          'followers': FieldValue.arrayRemove([FirebaseAuth.instance.currentUser!.uid]),
         });
-        await FirebaseFirestore.instance
-            .collection('users')
-            .doc(FirebaseAuth.instance.currentUser!.uid)
-            .update({
+        await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).update({
           'following': FieldValue.arrayRemove([userId]),
         });
 
         showMessage(context, "You Are UnFollow This User");
       } else {
-        await FirebaseFirestore.instance
-            .collection('users')
-            .doc(userId)
-            .update({
-          'followers':
-              FieldValue.arrayUnion([FirebaseAuth.instance.currentUser!.uid]),
+        await FirebaseFirestore.instance.collection('users').doc(userId).update({
+          'followers': FieldValue.arrayUnion([FirebaseAuth.instance.currentUser!.uid]),
         });
-        await FirebaseFirestore.instance
-            .collection('users')
-            .doc(FirebaseAuth.instance.currentUser!.uid)
-            .update({
+        await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).update({
           'following': FieldValue.arrayUnion([userId]),
         });
         await NotificationServices().sendPushNotification(

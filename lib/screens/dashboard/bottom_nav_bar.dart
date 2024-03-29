@@ -7,7 +7,7 @@ import '../../providers/user_controller.dart';
 import '../../services/notification_services.dart';
 import '../../themes/colors.dart';
 import 'home/home_screen.dart';
-import 'notification_screen.dart';
+import 'notifications/notification_screen.dart';
 import 'upload/upload_post_screen.dart';
 
 class BottomNavBar extends StatefulWidget {

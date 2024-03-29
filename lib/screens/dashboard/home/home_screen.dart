@@ -1,6 +1,6 @@
-import 'package:chitchat/providers/user_controller.dart';
 import 'package:chitchat/screens/dashboard/home/widgets/custom_post_card.dart';
-import 'package:chitchat/screens/dashboard/minor_screen/save_posts_screen.dart';
+import 'package:chitchat/screens/dashboard/minor_screen/bookmarks/save_posts_screen.dart';
+import 'package:chitchat/screens/dashboard/widgets/shimmer_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -32,11 +32,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final postController = Provider.of<PostController>(context);
-    final userController = Provider.of<UserController>(context);
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        leading: Icon(Icons.camera_alt_outlined, color: AppColors.primaryWhite),
         title: Text("Chit Chat",
             style: GoogleFonts.satisfy(
               fontSize: 22,
@@ -60,28 +58,20 @@ class _HomeScreenState extends State<HomeScreen> {
           )
         ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Divider(thickness: 0.5),
-            // const StoryCard(),
-            const Divider(thickness: 0.1, color: Colors.grey),
-            if (postController.postList.isEmpty)
-              const Center(child: CircularProgressIndicator())
-            else
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.8,
-                child: ListView.builder(
-                  padding: const EdgeInsets.only(bottom: 120),
-                  itemCount: postController.postList.length,
-                  itemBuilder: (context, index) {
-                    return CustomPostCard(postModel: postController.postList[index]);
-                  },
+      body: postController.postList.isEmpty
+          ? shimmerLoading()
+          : CustomScrollView(
+              slivers: [
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (BuildContext context, int index) {
+                      return CustomPostCard(postModel: postController.postList[index]);
+                    },
+                    childCount: postController.postList.length,
+                  ),
                 ),
-              )
-          ],
-        ),
-      ),
+              ],
+            ),
     );
   }
 }

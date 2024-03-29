@@ -24,10 +24,8 @@ class CommentServices {
       try {
         Provider.of<LoadingController>(context, listen: false).setLoading(true);
         String commentId = const Uuid().v1();
-        DocumentSnapshot snapshot = await FirebaseFirestore.instance
-            .collection('users')
-            .doc(FirebaseAuth.instance.currentUser!.uid)
-            .get();
+        DocumentSnapshot snapshot =
+            await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).get();
 
         CommentModel commentModel = CommentModel(
           commentId: commentId,
@@ -54,17 +52,15 @@ class CommentServices {
         await NotificationServices().addNotificationInDB(
           context: context,
           toUserId: postCreatorId,
-          title: snapshot['username'] + "Comment On Your Post",
+          title: snapshot['username'] + "  " + "Comment On Your Post",
           userImage: snapshot['imageUrl'],
         );
 
-        Provider.of<LoadingController>(context, listen: false)
-            .setLoading(false);
+        Provider.of<LoadingController>(context, listen: false).setLoading(false);
 
         showMessage(context, 'Comment Is Added SuccessFully');
       } on FirebaseException catch (e) {
-        Provider.of<LoadingController>(context, listen: false)
-            .setLoading(false);
+        Provider.of<LoadingController>(context, listen: false).setLoading(false);
         showMessage(context, e.message!);
       }
     }
@@ -80,10 +76,8 @@ class CommentServices {
       showMessage(context, 'Type Something');
     } else {
       try {
-        DocumentSnapshot snap = await FirebaseFirestore.instance
-            .collection('users')
-            .doc(FirebaseAuth.instance.currentUser!.uid)
-            .get();
+        DocumentSnapshot snap =
+            await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).get();
         await FirebaseFirestore.instance
             .collection('posts')
             .doc(postId)
@@ -102,32 +96,19 @@ class CommentServices {
     }
   }
 
-  likeComment(BuildContext context, String postId, String commentId,
-      List<dynamic> snap) async {
+  likeComment(BuildContext context, String postId, String commentId, List<dynamic> snap) async {
     if (snap.contains(FirebaseAuth.instance.currentUser!.uid)) {
       try {
-        await FirebaseFirestore.instance
-            .collection("posts")
-            .doc(postId)
-            .collection("comments")
-            .doc(commentId)
-            .update({
-          "likes":
-              FieldValue.arrayRemove([FirebaseAuth.instance.currentUser!.uid]),
+        await FirebaseFirestore.instance.collection("posts").doc(postId).collection("comments").doc(commentId).update({
+          "likes": FieldValue.arrayRemove([FirebaseAuth.instance.currentUser!.uid]),
         });
       } catch (e) {
         showMessage(context, e.toString());
       }
     } else {
       try {
-        await FirebaseFirestore.instance
-            .collection("posts")
-            .doc(postId)
-            .collection("comments")
-            .doc(commentId)
-            .update({
-          "likes":
-              FieldValue.arrayUnion([FirebaseAuth.instance.currentUser!.uid]),
+        await FirebaseFirestore.instance.collection("posts").doc(postId).collection("comments").doc(commentId).update({
+          "likes": FieldValue.arrayUnion([FirebaseAuth.instance.currentUser!.uid]),
         });
       } catch (e) {
         showMessage(context, e.toString());

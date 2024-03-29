@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../home/widgets/custom_post_card.dart';
+import '../../home/widgets/custom_post_card.dart';
 
 class SavePostsScreen extends StatelessWidget {
   const SavePostsScreen({super.key});

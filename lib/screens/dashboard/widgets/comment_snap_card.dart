@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -9,6 +10,7 @@ import 'package:uuid/uuid.dart';
 import '../../../models/comment_model.dart';
 import '../../../services/comment_services.dart';
 import '../../../themes/colors.dart';
+import '../../../utils/constants.dart';
 import '../minor_screen/comment_screen/widgets/display_all_reply_widget.dart';
 import '../minor_screen/comment_screen/widgets/reply_adding_widget.dart';
 
@@ -37,9 +39,17 @@ class _CommentSnapCardState extends State<CommentSnapCard> {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CircleAvatar(
-                  radius: 20,
-                  backgroundImage: NetworkImage(widget.commentModel.userImage),
+                Container(
+                  height: 35,
+                  width: 35,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: CachedNetworkImage(
+                      imageUrl: widget.commentModel.userImage,
+                      fit: BoxFit.cover,
+                      placeholder: (context, url) => spinKit2,
+                    ),
+                  ),
                 ),
                 const SizedBox(width: 20),
                 SizedBox(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
-import '../../../themes/colors.dart';
+import '../../../../themes/colors.dart';
 
 class StoryFullScreen extends StatelessWidget {
   final dynamic data;
@@ -15,8 +15,7 @@ class StoryFullScreen extends StatelessWidget {
         image: DecorationImage(
           image: NetworkImage(data['storyImage']),
           fit: BoxFit.cover,
-          colorFilter: ColorFilter.mode(
-              AppColors.primaryBlack.withOpacity(0.7), BlendMode.srcATop),
+          colorFilter: ColorFilter.mode(AppColors.primaryBlack.withOpacity(0.7), BlendMode.srcATop),
         ),
       ),
       child: Column(
@@ -30,8 +29,7 @@ class StoryFullScreen extends StatelessWidget {
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
-                    icon:
-                        Icon(Icons.arrow_back, color: AppColors.primaryWhite)),
+                    icon: Icon(Icons.arrow_back, color: AppColors.primaryWhite)),
                 const SizedBox(width: 10),
                 CircleAvatar(
                   radius: 20,
@@ -60,9 +58,7 @@ class StoryFullScreen extends StatelessWidget {
                   ],
                 ),
                 const Spacer(),
-                IconButton(
-                    onPressed: () {},
-                    icon: Icon(Icons.more_vert, color: AppColors.primaryWhite))
+                IconButton(onPressed: () {}, icon: Icon(Icons.more_vert, color: AppColors.primaryWhite))
               ],
             ),
           ),

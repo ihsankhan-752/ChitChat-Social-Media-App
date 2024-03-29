@@ -145,3 +145,72 @@ class CommentTextInput extends StatelessWidget {
     );
   }
 }
+
+class CustomTextInput extends StatelessWidget {
+  final String hintText;
+  final TextEditingController controller;
+  const CustomTextInput({super.key, required this.hintText, required this.controller});
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      controller: controller,
+      style: TextStyle(
+        color: AppColors.primaryWhite,
+      ),
+      decoration: InputDecoration(
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide(color: AppColors.primaryColor, width: 2),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide(color: AppColors.primaryColor, width: 2),
+        ),
+        hintText: "$hintText",
+        hintStyle: TextStyle(
+          color: AppColors.primaryWhite.withOpacity(0.3),
+        ),
+      ),
+    );
+  }
+}
+
+class CustomPasswordTextInput extends StatelessWidget {
+  final String? Function(String? v)? validator;
+  final String? hintText;
+  final String? errorText;
+  final TextEditingController? controller;
+  const CustomPasswordTextInput({super.key, this.validator, this.hintText, this.errorText, this.controller});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: TextFormField(
+        style: TextStyle(
+          color: Colors.white.withOpacity(0.7),
+        ),
+        controller: controller,
+        validator: validator,
+        keyboardType: TextInputType.emailAddress,
+        decoration: InputDecoration(
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(color: AppColors.primaryWhite.withOpacity(0.7)),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(color: AppColors.primaryWhite.withOpacity(0.7)),
+          ),
+          hintStyle: TextStyle(
+            fontWeight: FontWeight.normal,
+            color: AppColors.primaryWhite.withOpacity(0.6),
+          ),
+          hintText: hintText!,
+          // errorText: errorText ?? "",
+        ),
+      ),
+    );
+  }
+}

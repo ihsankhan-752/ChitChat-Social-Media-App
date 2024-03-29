@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:chitchat/services/notification_services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -94,8 +95,10 @@ class PostServices {
     }
   }
 
-  Future<void> likeAndUnlikePost(PostModel postModel, String postId) async {
+  Future<void> likeAndUnlikePost(BuildContext context, PostModel postModel, String postId) async {
     try {
+      DocumentSnapshot snap =
+          await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).get();
       if (postModel.likes.contains(FirebaseAuth.instance.currentUser!.uid)) {
         await FirebaseFirestore.instance.collection('posts').doc(postId).update({
           "likes": FieldValue.arrayRemove([FirebaseAuth.instance.currentUser!.uid])
@@ -104,6 +107,21 @@ class PostServices {
         await FirebaseFirestore.instance.collection('posts').doc(postId).update({
           "likes": FieldValue.arrayUnion([FirebaseAuth.instance.currentUser!.uid])
         });
+        if (postModel.uid == snap['uid']) {
+          return;
+        } else {
+          await NotificationServices().sendPushNotification(
+            userId: postModel.uid,
+            body: "Like your Photo",
+            title: snap['username'],
+          );
+          await NotificationServices().addNotificationInDB(
+            context: context,
+            toUserId: postModel.uid,
+            title: "${snap['username']}  Like your post",
+            userImage: snap['imageUrl'],
+          );
+        }
       }
     } on FirebaseException catch (e) {
       print(e);

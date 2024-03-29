@@ -27,18 +27,13 @@ class AuthServices {
     required String username,
     required String bio,
   }) async {
-    if (email.isEmpty ||
-        password.isEmpty ||
-        file == null ||
-        username.isEmpty ||
-        bio.isEmpty) {
+    if (email.isEmpty || password.isEmpty || file == null || username.isEmpty || bio.isEmpty) {
       showMessage(context, "All Fields are Required");
     } else {
       try {
         Provider.of<LoadingController>(context, listen: false).setLoading(true);
 
-        await _auth.createUserWithEmailAndPassword(
-            email: email, password: password);
+        await _auth.createUserWithEmailAndPassword(email: email, password: password);
         String imageUrl = await StorageServices().uploadPhoto(file);
 
         UserModel userModel = UserModel(
@@ -50,17 +45,11 @@ class AuthServices {
           following: [],
           bio: bio,
         );
-        await FirebaseFirestore.instance
-            .collection("users")
-            .doc(FirebaseAuth.instance.currentUser!.uid)
-            .set(userModel.toMap());
-        Provider.of<LoadingController>(context, listen: false)
-            .setLoading(false);
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (_) => const BottomNavBar()));
+        await FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.uid).set(userModel.toMap());
+        Provider.of<LoadingController>(context, listen: false).setLoading(false);
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const BottomNavBar()));
       } on FirebaseAuthException catch (e) {
-        Provider.of<LoadingController>(context, listen: false)
-            .setLoading(false);
+        Provider.of<LoadingController>(context, listen: false).setLoading(false);
         showMessage(context, e.message!);
       }
     }
@@ -73,16 +62,12 @@ class AuthServices {
       try {
         Provider.of<LoadingController>(context, listen: false).setLoading(true);
 
-        await FirebaseAuth.instance
-            .signInWithEmailAndPassword(email: email, password: password);
-        Provider.of<LoadingController>(context, listen: false)
-            .setLoading(false);
+        await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
+        Provider.of<LoadingController>(context, listen: false).setLoading(false);
 
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (_) => const BottomNavBar()));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const BottomNavBar()));
       } on FirebaseAuthException catch (e) {
-        Provider.of<LoadingController>(context, listen: false)
-            .setLoading(false);
+        Provider.of<LoadingController>(context, listen: false).setLoading(false);
         showMessage(context, e.message!);
       }
     }
@@ -90,25 +75,18 @@ class AuthServices {
 
   logOutUser(BuildContext context) async {
     await FirebaseAuth.instance.signOut();
-    Navigator.of(context, rootNavigator: true).pushReplacement(
-        MaterialPageRoute(builder: (context) => const LoginScreen()));
+    Navigator.of(context, rootNavigator: true).pushReplacement(MaterialPageRoute(builder: (context) => const LoginScreen()));
   }
 
   Future<UserCredential> signInWithGoogle(BuildContext context) async {
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-    final GoogleSignInAuthentication googleAuth =
-        await googleUser!.authentication;
+    final GoogleSignInAuthentication googleAuth = await googleUser!.authentication;
     final credential = GoogleAuthProvider.credential(
       idToken: googleAuth.idToken,
       accessToken: googleAuth.accessToken,
     );
-    return await FirebaseAuth.instance
-        .signInWithCredential(credential)
-        .whenComplete(() async {
-      await FirebaseFirestore.instance
-          .collection("users")
-          .doc(FirebaseAuth.instance.currentUser!.uid)
-          .set({
+    return await FirebaseAuth.instance.signInWithCredential(credential).whenComplete(() async {
+      await FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.uid).set({
         "uid": FirebaseAuth.instance.currentUser!.uid,
         "username": googleUser.displayName,
         "email": googleUser.email,
@@ -128,12 +106,30 @@ class AuthServices {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
       Provider.of<LoadingController>(context, listen: false).setLoading(false);
       Navigator.pop(context);
-      showMessage(context,
-          'Please Reset Your Password and Login Again with New Password');
+      showMessage(context, 'Please Reset Your Password and Login Again with New Password');
     } on FirebaseAuthException catch (e) {
       Provider.of<LoadingController>(context, listen: false).setLoading(false);
 
       showMessage(context, e.message!);
+    }
+  }
+
+  static Future<bool> checkOldPassword(email, password) async {
+    AuthCredential authCredential = EmailAuthProvider.credential(email: email, password: password);
+    try {
+      var credentialResult = await FirebaseAuth.instance.currentUser!.reauthenticateWithCredential(authCredential);
+      return credentialResult.user != null;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  static Future<void> changeUserPassword(newPassword) async {
+    try {
+      await FirebaseAuth.instance.currentUser!.updatePassword(newPassword);
+    } catch (e) {
+      print(e);
     }
   }
 }
