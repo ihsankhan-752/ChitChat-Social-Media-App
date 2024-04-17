@@ -43,7 +43,6 @@ class ChatController extends ChangeNotifier {
       (snap) async {
         _chatModel.clear();
         _userModel.clear();
-
         for (var chatSnap in snap.docs) {
           ChatModel _newChat = ChatModel.fromMap(chatSnap);
           _chatModel.add(_newChat);

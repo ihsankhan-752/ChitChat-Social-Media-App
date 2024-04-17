@@ -75,7 +75,14 @@ class _UserListForChatScreenState extends State<UserListForChatScreen> {
                       child: ListView.builder(
                         itemCount: userController.length,
                         itemBuilder: (context, index) {
-                          return UserCardChatList(userModel: userController[index], chatModel: chatController[index]);
+                          if (index < userController.length && index < chatController.length) {
+                            return UserCardChatList(
+                              userModel: userController[index],
+                              chatModel: chatController[index],
+                            );
+                          } else {
+                            return SizedBox();
+                          }
                         },
                       ),
                     ),

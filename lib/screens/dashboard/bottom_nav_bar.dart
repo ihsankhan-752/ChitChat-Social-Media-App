@@ -39,68 +39,76 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBody: true,
-      bottomNavigationBar: Container(
-        height: 70,
-        width: double.infinity,
-        decoration: BoxDecoration(
-          color: AppColors.primaryBlack,
-          border: Border(
-            top: BorderSide(color: AppColors.primaryColor, width: 2),
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (dipPop) {
+        if (dipPop) {
+          return;
+        }
+      },
+      child: Scaffold(
+        extendBody: true,
+        bottomNavigationBar: Container(
+          height: 70,
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: AppColors.primaryBlack,
+            border: Border(
+              top: BorderSide(color: AppColors.primaryColor, width: 2),
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      currentIndex = 0;
+                    });
+                  },
+                  child: Icon(Icons.home, color: currentIndex == 0 ? AppColors.primaryWhite : Colors.grey, size: 27),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      currentIndex = 1;
+                    });
+                  },
+                  child: Icon(Icons.search, color: currentIndex == 1 ? AppColors.primaryWhite : Colors.grey, size: 27),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      currentIndex = 2;
+                    });
+                  },
+                  child: Icon(Icons.add_box_outlined, color: currentIndex == 2 ? AppColors.primaryWhite : Colors.grey, size: 27),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      currentIndex = 3;
+                    });
+                  },
+                  child: Icon(Icons.notifications_on_sharp,
+                      color: currentIndex == 3 ? AppColors.primaryWhite : Colors.grey, size: 27),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      currentIndex = 4;
+                    });
+                  },
+                  child: Icon(Icons.person, color: currentIndex == 4 ? AppColors.primaryWhite : Colors.grey, size: 27),
+                ),
+              ],
+            ),
           ),
         ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              GestureDetector(
-                onTap: () {
-                  setState(() {
-                    currentIndex = 0;
-                  });
-                },
-                child: Icon(Icons.home, color: currentIndex == 0 ? AppColors.primaryWhite : Colors.grey, size: 27),
-              ),
-              GestureDetector(
-                onTap: () {
-                  setState(() {
-                    currentIndex = 1;
-                  });
-                },
-                child: Icon(Icons.search, color: currentIndex == 1 ? AppColors.primaryWhite : Colors.grey, size: 27),
-              ),
-              GestureDetector(
-                onTap: () {
-                  setState(() {
-                    currentIndex = 2;
-                  });
-                },
-                child: Icon(Icons.add_box_outlined, color: currentIndex == 2 ? AppColors.primaryWhite : Colors.grey, size: 27),
-              ),
-              GestureDetector(
-                onTap: () {
-                  setState(() {
-                    currentIndex = 3;
-                  });
-                },
-                child:
-                    Icon(Icons.notifications_on_sharp, color: currentIndex == 3 ? AppColors.primaryWhite : Colors.grey, size: 27),
-              ),
-              GestureDetector(
-                onTap: () {
-                  setState(() {
-                    currentIndex = 4;
-                  });
-                },
-                child: Icon(Icons.person, color: currentIndex == 4 ? AppColors.primaryWhite : Colors.grey, size: 27),
-              ),
-            ],
-          ),
-        ),
+        body: _screens[currentIndex],
       ),
-      body: _screens[currentIndex],
     );
   }
 }

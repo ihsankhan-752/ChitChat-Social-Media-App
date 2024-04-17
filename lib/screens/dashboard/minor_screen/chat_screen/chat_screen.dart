@@ -47,54 +47,52 @@ class _ChatScreenState extends State<ChatScreen> {
     final messageController = Provider.of<ChatController>(context).messageModel;
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      bottomNavigationBar: TextSendingWidget(
-        imageController: imageController,
-        msgController: msgController,
-        userId: widget.userModel.uid!,
-        docId: docId,
-      ),
       appBar: AppBar(
         title: ChatProfileHeader(userModel: widget.userModel),
       ),
-      body: SingleChildScrollView(
-        physics: NeverScrollableScrollPhysics(),
-        child: Column(
-          children: [
-            if (imageController.selectedImage == null)
-              const SizedBox()
-            else
-              ImageSendingWidget(
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          if (imageController.selectedImage != null)
+            ImageSendingWidget(
+              imageController: imageController,
+              userId: widget.userModel.uid!,
+              docId: docId,
+            ),
+          Expanded(
+            child: messageController.isEmpty
+                ? Center(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 80),
+                      child: Text(
+                        "No Chat Found!",
+                        style: GoogleFonts.acme(
+                          fontSize: 20,
+                          color: AppColors.primaryWhite,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  )
+                : ListView.builder(
+                    reverse: true,
+                    itemCount: messageController.length,
+                    itemBuilder: (context, index) {
+                      return ChatCard(messageController: messageController[index]);
+                    },
+                  ),
+          ),
+          if (imageController.selectedImage == null)
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 5),
+              child: TextSendingWidget(
                 imageController: imageController,
+                msgController: msgController,
                 userId: widget.userModel.uid!,
                 docId: docId,
               ),
-            if (messageController.isEmpty)
-              Padding(
-                padding: EdgeInsets.only(top: MediaQuery.sizeOf(context).height * 0.3),
-                child: Center(
-                  child: Text(
-                    "No Chat Found!",
-                    style: GoogleFonts.acme(
-                      fontSize: 20,
-                      color: AppColors.primaryWhite,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              )
-            else
-              SizedBox(
-                height: MediaQuery.sizeOf(context).height * 0.75,
-                child: ListView.builder(
-                  reverse: true,
-                  itemCount: messageController.length,
-                  itemBuilder: (context, index) {
-                    return ChatCard(messageController: messageController[index]);
-                  },
-                ),
-              ),
-          ],
-        ),
+            ),
+        ],
       ),
     );
   }

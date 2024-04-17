@@ -50,12 +50,12 @@ class _HomeScreenState extends State<HomeScreen> {
               navigateToNext(context, const UserListForChatScreen());
             },
           ),
-          IconButton(
-            icon: Icon(Icons.bookmark, color: AppColors.primaryWhite),
-            onPressed: () {
-              navigateToNext(context, SavePostsScreen());
-            },
-          )
+          // IconButton(
+          //   icon: Icon(Icons.bookmark, color: AppColors.primaryWhite),
+          //   onPressed: () {
+          //     navigateToNext(context, SavePostsScreen());
+          //   },
+          // )
         ],
       ),
       body: postController.postList.isEmpty

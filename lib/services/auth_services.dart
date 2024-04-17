@@ -23,18 +23,22 @@ class AuthServices {
     required BuildContext context,
     required String email,
     required String password,
-    required File file,
+    required File? file,
     required String username,
     required String bio,
   }) async {
-    if (email.isEmpty || password.isEmpty || file == null || username.isEmpty || bio.isEmpty) {
+    if (email.isEmpty || password.isEmpty || username.isEmpty || bio.isEmpty) {
       showMessage(context, "All Fields are Required");
     } else {
       try {
         Provider.of<LoadingController>(context, listen: false).setLoading(true);
 
         await _auth.createUserWithEmailAndPassword(email: email, password: password);
-        String imageUrl = await StorageServices().uploadPhoto(file);
+
+        String? imageUrl;
+        if (file != null) {
+          imageUrl = await StorageServices().uploadPhoto(file);
+        }
 
         UserModel userModel = UserModel(
           uid: FirebaseAuth.instance.currentUser!.uid,
@@ -63,9 +67,23 @@ class AuthServices {
         Provider.of<LoadingController>(context, listen: false).setLoading(true);
 
         await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
-        Provider.of<LoadingController>(context, listen: false).setLoading(false);
 
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const BottomNavBar()));
+        await FirebaseAuth.instance.authStateChanges().first;
+
+        User? user = FirebaseAuth.instance.currentUser;
+        if (user != null) {
+          QuerySnapshot snap = await FirebaseFirestore.instance.collection('users').where('email', isEqualTo: email).get();
+          if (snap.docs.isNotEmpty) {
+            Provider.of<LoadingController>(context, listen: false).setLoading(false);
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const BottomNavBar()));
+          } else {
+            Provider.of<LoadingController>(context, listen: false).setLoading(false);
+            showMessage(context, "No User Found!");
+          }
+        } else {
+          Provider.of<LoadingController>(context, listen: false).setLoading(false);
+          showMessage(context, "Authentication failed");
+        }
       } on FirebaseAuthException catch (e) {
         Provider.of<LoadingController>(context, listen: false).setLoading(false);
         showMessage(context, e.message!);

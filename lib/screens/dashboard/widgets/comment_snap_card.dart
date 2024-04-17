@@ -63,7 +63,7 @@ class _CommentSnapCardState extends State<CommentSnapCard> {
                         style: GoogleFonts.poppins(
                           color: AppColors.primaryWhite,
                           fontWeight: FontWeight.bold,
-                          fontSize: 10,
+                          fontSize: 12,
                         ),
                       ),
                       SizedBox(height: 4),
@@ -71,7 +71,7 @@ class _CommentSnapCardState extends State<CommentSnapCard> {
                         widget.commentModel.comment,
                         style: GoogleFonts.poppins(
                           color: AppColors.primaryWhite,
-                          fontSize: 14,
+                          fontSize: 12,
                         ),
                       ),
                       const SizedBox(height: 5),

@@ -1,14 +1,13 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:chitchat/screens/auth/widgets/image_picking_dialog_box.dart';
+import 'package:chitchat/services/auth_services.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/image_controller.dart';
 import '../../providers/loading_controller.dart';
-import '../../services/auth_services.dart';
 import '../../themes/colors.dart';
+import '../../utils/custom_messanger.dart';
 import '../../utils/screen_navigations.dart';
 import '../../utils/text_styles.dart';
 import '../../widgets/buttons.dart';
@@ -23,7 +22,7 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  bool isVisible = false;
+  bool isVisible = true;
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController bioController = TextEditingController();
@@ -37,8 +36,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         centerTitle: true,
-        title: Text("Create Your Account",
-            style: AppTextStyle.mainHeading.copyWith(fontSize: 18)),
+        title: Text("Create Your Account", style: AppTextStyle.mainHeading.copyWith(fontSize: 18)),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -56,15 +54,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       Center(
                         child: imageController.selectedImage == null
                             ? const CircleAvatar(
-                                radius: 55,
-                                backgroundColor: Colors.grey,
-                                backgroundImage:
-                                    AssetImage("assets/images/guest.png"))
+                                radius: 55, backgroundColor: Colors.grey, backgroundImage: AssetImage("assets/images/guest.png"))
                             : CircleAvatar(
                                 radius: 55,
                                 backgroundColor: Colors.grey,
-                                backgroundImage:
-                                    FileImage(imageController.selectedImage!),
+                                backgroundImage: FileImage(imageController.selectedImage!),
                               ),
                       ),
                       Positioned(
@@ -79,22 +73,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             border: Border.all(color: AppColors.btnColor),
                           ),
                           child: InkWell(
-                            onTap: () {
-                              imagePickingDialogBox(
-                                  context: context,
-                                  cameraTapped: () {
-                                    Navigator.of(context).pop();
-                                    imageController
-                                        .uploadImage(ImageSource.camera);
-                                  },
-                                  galleryTapped: () {
-                                    Navigator.of(context).pop();
-                                    imageController
-                                        .uploadImage(ImageSource.gallery);
-                                  });
-                            },
-                            child: Icon(Icons.image,
-                                color: AppColors.primaryWhite, size: 20),
+                            onTap: () => imagePickingDialogBox(
+                                context: context,
+                                cameraTapped: () {
+                                  Navigator.of(context).pop();
+                                  imageController.uploadImage(ImageSource.camera);
+                                },
+                                galleryTapped: () {
+                                  Navigator.of(context).pop();
+                                  imageController.uploadImage(ImageSource.gallery);
+                                }),
+                            child: Icon(Icons.image, color: AppColors.primaryWhite, size: 20),
                           ),
                         ),
                       )
@@ -121,9 +110,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 prefixIcon: Icons.lock,
                 isTextSecure: isVisible,
                 suffixChild: IconButton(
-                  icon: Icon(
-                      isVisible ? Icons.visibility_off : Icons.visibility,
-                      color: Colors.grey),
+                  icon: Icon(isVisible ? Icons.visibility_off : Icons.visibility, color: Colors.grey),
                   onPressed: () {
                     setState(() {
                       isVisible = !isVisible;
@@ -146,14 +133,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     )
                   : PrimaryButton(
                       onPressed: () {
-                        AuthServices().signUp(
-                          context: context,
-                          email: emailController.text,
-                          password: passwordController.text,
-                          file: imageController.selectedImage!,
-                          username: usernameController.text,
-                          bio: bioController.text,
-                        );
+                        if (imageController.selectedImage == null) {
+                          showMessage(context, "Please select an image.");
+                        } else {
+                          AuthServices().signUp(
+                            context: context,
+                            email: emailController.text,
+                            password: passwordController.text,
+                            file: imageController.selectedImage!,
+                            username: usernameController.text,
+                            bio: bioController.text,
+                          );
+                          imageController.deleteUploadPhoto();
+                        }
                       },
                       title: "Sign Up",
                       btnColor: AppColors.mainColor,
@@ -171,13 +163,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       "Already have an Account? ",
                       style: AppTextStyle.buttonTextStyle.copyWith(
                         fontSize: 16,
+                        color: AppColors.primaryWhite.withOpacity(0.5),
                       ),
                     ),
                     Text(
-                      " Sign In",
+                      "  Sign In",
                       style: AppTextStyle.buttonTextStyle.copyWith(
                         fontSize: 18,
-                        color: AppColors.mainColor,
+                        color: AppColors.primaryWhite,
                       ),
                     ),
                   ],

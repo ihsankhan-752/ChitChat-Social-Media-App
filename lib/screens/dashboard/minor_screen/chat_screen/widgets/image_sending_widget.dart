@@ -20,8 +20,7 @@ class ImageSendingWidget extends StatelessWidget {
     return Stack(
       children: [
         Container(
-          margin: const EdgeInsets.only(top: 50),
-          height: MediaQuery.of(context).size.height * 0.75,
+          height: MediaQuery.of(context).size.height * 0.8,
           width: double.infinity,
           color: Colors.red,
           child: ColorFiltered(

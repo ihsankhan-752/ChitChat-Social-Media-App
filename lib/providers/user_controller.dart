@@ -32,8 +32,6 @@ class UserController extends ChangeNotifier {
       DocumentSnapshot userSnap =
           await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).get();
 
-      print("Test 1");
-
       if (snap['followers'].contains(FirebaseAuth.instance.currentUser!.uid)) {
         await FirebaseFirestore.instance.collection('users').doc(userId).update({
           'followers': FieldValue.arrayRemove([FirebaseAuth.instance.currentUser!.uid]),

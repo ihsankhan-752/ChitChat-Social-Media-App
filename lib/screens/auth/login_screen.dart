@@ -35,13 +35,12 @@ class _LoginScreenState extends State<LoginScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const SizedBox(height: 180),
-              Text("Login to Your\nAccount", style: AppTextStyle.mainHeading),
-              const SizedBox(height: 30),
-              TextInputField(
-                  controller: emailController,
-                  hintText: "email",
-                  prefixIcon: Icons.email),
+              SizedBox(height: 80),
+              SizedBox(height: 150, child: Center(child: Image.asset("assets/images/logo.png"))),
+              SizedBox(height: 30),
+              Text("Login to Your Account", style: AppTextStyle.mainHeading.copyWith(fontSize: 20)),
+              const SizedBox(height: 20),
+              TextInputField(controller: emailController, hintText: "email", prefixIcon: Icons.email),
               const SizedBox(height: 20),
               TextInputField(
                 controller: passwordController,
@@ -49,9 +48,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 prefixIcon: Icons.lock,
                 isTextSecure: isVisible,
                 suffixChild: IconButton(
-                  icon: Icon(
-                      isVisible ? Icons.visibility_off : Icons.visibility,
-                      color: Colors.grey),
+                  icon: Icon(isVisible ? Icons.visibility_off : Icons.visibility, color: Colors.grey),
                   onPressed: () {
                     setState(() {
                       isVisible = !isVisible;
@@ -68,8 +65,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   alignment: Alignment.centerRight,
                   child: Text(
                     "Forgot Password?",
-                    style: AppTextStyle.buttonTextStyle
-                        .copyWith(color: AppColors.primaryWhite),
+                    style: AppTextStyle.buttonTextStyle.copyWith(color: AppColors.primaryWhite),
                   ),
                 ),
               ),
@@ -104,13 +100,14 @@ class _LoginScreenState extends State<LoginScreen> {
                       "Don't have an Account ?",
                       style: AppTextStyle.buttonTextStyle.copyWith(
                         fontSize: 16,
+                        color: AppColors.primaryWhite.withOpacity(0.5),
                       ),
                     ),
                     Text(
                       "  Sign Up ",
                       style: AppTextStyle.buttonTextStyle.copyWith(
                         fontSize: 18,
-                        color: AppColors.mainColor,
+                        color: AppColors.primaryWhite,
                       ),
                     ),
                   ],

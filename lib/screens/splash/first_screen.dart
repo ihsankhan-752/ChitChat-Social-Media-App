@@ -22,7 +22,7 @@ class FirstScreen extends StatelessWidget {
             const SizedBox(height: 20),
             Text(
               "Let's You in",
-              style: AppTextStyle.mainHeading.copyWith(color: AppColors.mainColor),
+              style: AppTextStyle.mainHeading.copyWith(color: AppColors.primaryWhite),
             ),
             const SizedBox(height: 20),
             PrimaryButton(
@@ -43,7 +43,7 @@ class FirstScreen extends StatelessWidget {
               isIconReq: true,
               title: "Login With Email",
               icon: Icons.email,
-              iconColor: Colors.blueGrey,
+              iconColor: AppColors.primaryWhite,
               btnColor: AppColors.primaryGrey,
             ),
             const SizedBox(height: 20),
