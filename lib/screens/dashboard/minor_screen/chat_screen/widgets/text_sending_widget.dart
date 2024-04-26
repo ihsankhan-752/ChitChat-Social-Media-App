@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../../consts/colors.dart';
 import '../../../../../providers/image_controller.dart';
 import '../../../../../providers/loading_controller.dart';
 import '../../../../../services/chat_services.dart';
-import '../../../../../themes/colors.dart';
 import '../../../../../widgets/buttons.dart';
 import '../../../widgets/message_text_input.dart';
 import 'image_sending_option_bottomsheet.dart';
@@ -40,8 +40,8 @@ class _TextSendingWidgetState extends State<TextSendingWidget> {
       sendingTextBtn: Consumer<LoadingController>(builder: (context, loadingController, child) {
         return loadingController.isLoading
             ? SizedBox(
-                height: 30,
-                width: 30,
+                height: 35,
+                width: 35,
                 child: Center(
                   child: CircularProgressIndicator(color: AppColors.primaryWhite),
                 ),

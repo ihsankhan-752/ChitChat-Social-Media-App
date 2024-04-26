@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
+import '../consts/colors.dart';
+import '../consts/text_styles.dart';
 import '../providers/user_controller.dart';
-import '../themes/colors.dart';
-import '../utils/text_styles.dart';
 
 class TextInputField extends StatelessWidget {
   final String? hintText;
@@ -134,7 +134,7 @@ class CommentTextInput extends StatelessWidget {
             InkWell(
                 onTap: onPressed,
                 child: loadingController.isLoading
-                    ? Center(child: CircularProgressIndicator(color: AppColors.btnColor))
+                    ? Center(child: CircularProgressIndicator(color: AppColors.primaryWhite))
                     : Icon(
                         FontAwesomeIcons.paperPlane,
                         color: AppColors.primaryWhite,
@@ -149,11 +149,17 @@ class CommentTextInput extends StatelessWidget {
 class CustomTextInput extends StatelessWidget {
   final String hintText;
   final TextEditingController controller;
-  const CustomTextInput({super.key, required this.hintText, required this.controller});
+  final bool? readOnly;
+  final Widget? suffixWidget;
+  final int? maxLines;
+  const CustomTextInput(
+      {super.key, required this.hintText, required this.controller, this.readOnly, this.suffixWidget, this.maxLines});
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+      maxLines: maxLines ?? 1,
+      readOnly: readOnly ?? false,
       controller: controller,
       style: TextStyle(
         color: AppColors.primaryWhite,
@@ -163,6 +169,7 @@ class CustomTextInput extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
           borderSide: BorderSide(color: AppColors.primaryColor, width: 2),
         ),
+        suffixIcon: suffixWidget ?? SizedBox(),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
           borderSide: BorderSide(color: AppColors.primaryColor, width: 2),

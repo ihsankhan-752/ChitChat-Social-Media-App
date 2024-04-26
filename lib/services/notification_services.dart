@@ -13,14 +13,13 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:http/http.dart' as http;
 import 'package:uuid/uuid.dart';
 
+import '../consts/keys.dart';
 import '../models/notification_model.dart';
-import '../utils/constants.dart';
-import '../utils/custom_messanger.dart';
+import '../widgets/custom_messanger.dart';
 
 class NotificationServices {
   FirebaseMessaging messaging = FirebaseMessaging.instance;
-  final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
+  final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
   void getPermission() async {
     NotificationSettings settings = await messaging.requestPermission(
@@ -36,8 +35,7 @@ class NotificationServices {
       if (kDebugMode) {
         print('Request Granted');
       }
-    } else if (settings.authorizationStatus ==
-        AuthorizationStatus.provisional) {
+    } else if (settings.authorizationStatus == AuthorizationStatus.provisional) {
       if (kDebugMode) {
         print("Provisional State Granted");
       }
@@ -49,28 +47,22 @@ class NotificationServices {
   getDeviceToken() async {
     String? token = await FirebaseMessaging.instance.getToken();
     if (token != null && FirebaseAuth.instance.currentUser != null) {
-      FirebaseFirestore.instance
-          .collection('tokens')
-          .doc(FirebaseAuth.instance.currentUser!.uid)
-          .set({'token': token});
+      FirebaseFirestore.instance.collection('tokens').doc(FirebaseAuth.instance.currentUser!.uid).set({'token': token});
     }
   }
 
   void initNotification(BuildContext context) async {
-    RemoteMessage? remoteMessage =
-        await FirebaseMessaging.instance.getInitialMessage();
+    RemoteMessage? remoteMessage = await FirebaseMessaging.instance.getInitialMessage();
     if (remoteMessage != null) {
       if (kDebugMode) {
-        print(
-            "Get Message in Terminated State :${remoteMessage.notification!.title}");
+        print("Get Message in Terminated State :${remoteMessage.notification!.title}");
       }
     }
 
     FirebaseMessaging.onMessage.listen((RemoteMessage? remoteMessage) {
       if (remoteMessage != null) {
         if (Platform.isAndroid) {
-          print(
-              "Get Notification in Foreground State ${remoteMessage.notification!.title}");
+          print("Get Notification in Foreground State ${remoteMessage.notification!.title}");
           initLocalNotifications(context, remoteMessage);
           showNotification(context, remoteMessage);
         } else {
@@ -82,38 +74,31 @@ class NotificationServices {
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage? remoteMessage) {
       if (remoteMessage != null) {
         if (kDebugMode) {
-          print(
-              "Get Notification in background State :${remoteMessage.notification!.title}");
+          print("Get Notification in background State :${remoteMessage.notification!.title}");
         }
       }
     });
   }
 
-  void initLocalNotifications(
-      BuildContext context, RemoteMessage message) async {
-    var androidInitializationSettings =
-        const AndroidInitializationSettings('@mipmap/ic_launcher');
+  void initLocalNotifications(BuildContext context, RemoteMessage message) async {
+    var androidInitializationSettings = const AndroidInitializationSettings('@mipmap/ic_launcher');
     var iosInitializationSettings = const DarwinInitializationSettings();
 
-    var initializationSetting = InitializationSettings(
-        android: androidInitializationSettings, iOS: iosInitializationSettings);
+    var initializationSetting = InitializationSettings(android: androidInitializationSettings, iOS: iosInitializationSettings);
 
-    await _flutterLocalNotificationsPlugin.initialize(initializationSetting,
-        onDidReceiveNotificationResponse: (payload) {
+    await _flutterLocalNotificationsPlugin.initialize(initializationSetting, onDidReceiveNotificationResponse: (payload) {
       // handleMessage(context, message, message.data['userId']);
     });
   }
 
-  Future<void> showNotification(
-      BuildContext context, RemoteMessage message) async {
+  Future<void> showNotification(BuildContext context, RemoteMessage message) async {
     initLocalNotifications(context, message);
     AndroidNotificationChannel channel = AndroidNotificationChannel(
       Random.secure().nextInt(100000).toString(),
       "High Importance Notification",
       importance: Importance.max,
     );
-    AndroidNotificationDetails androidNotificationDetails =
-        AndroidNotificationDetails(
+    AndroidNotificationDetails androidNotificationDetails = AndroidNotificationDetails(
       channel.id.toString(),
       channel.name.toString(),
       channelDescription: "your channel description",
@@ -121,8 +106,7 @@ class NotificationServices {
       priority: Priority.high,
       ticker: 'ticker',
     );
-    const DarwinNotificationDetails darwinNotificationDetails =
-        DarwinNotificationDetails(
+    const DarwinNotificationDetails darwinNotificationDetails = DarwinNotificationDetails(
       presentSound: true,
       presentBadge: true,
       presentAlert: true,
@@ -143,15 +127,9 @@ class NotificationServices {
     });
   }
 
-  sendPushNotification(
-      {required String userId,
-      required String body,
-      required String title}) async {
+  sendPushNotification({required String userId, required String body, required String title}) async {
     try {
-      DocumentSnapshot snap = await FirebaseFirestore.instance
-          .collection('tokens')
-          .doc(userId)
-          .get();
+      DocumentSnapshot snap = await FirebaseFirestore.instance.collection('tokens').doc(userId).get();
 
       await http.post(
         Uri.parse("https://fcm.googleapis.com/fcm/send"),
@@ -200,10 +178,7 @@ class NotificationServices {
         docId: docId,
         userImage: userImage,
       );
-      await FirebaseFirestore.instance
-          .collection('notification')
-          .doc(docId)
-          .set(notificationModel.toMap());
+      await FirebaseFirestore.instance.collection('notification').doc(docId).set(notificationModel.toMap());
     } on FirebaseException catch (e) {
       showMessage(context, e.message!);
     }

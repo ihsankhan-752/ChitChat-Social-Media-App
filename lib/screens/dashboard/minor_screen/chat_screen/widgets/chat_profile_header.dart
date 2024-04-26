@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../consts/colors.dart';
 import '../../../../../models/user_model.dart';
-import '../../../../../themes/colors.dart';
 
 class ChatProfileHeader extends StatelessWidget {
   final UserModel userModel;

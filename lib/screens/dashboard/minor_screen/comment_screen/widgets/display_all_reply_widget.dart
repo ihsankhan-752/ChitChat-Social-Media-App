@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
-import '../../../../../themes/colors.dart';
+import '../../../../../consts/colors.dart';
 
 class DisplayAllReplayWidget extends StatelessWidget {
   final String postId;

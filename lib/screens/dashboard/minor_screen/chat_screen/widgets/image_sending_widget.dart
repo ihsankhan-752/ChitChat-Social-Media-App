@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../../consts/colors.dart';
 import '../../../../../providers/image_controller.dart';
 import '../../../../../providers/loading_controller.dart';
 import '../../../../../services/chat_services.dart';
 import '../../../../../services/firebase_storage_services.dart';
-import '../../../../../themes/colors.dart';
 
 class ImageSendingWidget extends StatelessWidget {
   final ImageController imageController;

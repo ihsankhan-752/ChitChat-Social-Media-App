@@ -1,14 +1,15 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:chitchat/consts/app_assets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
+import '../../../consts/colors.dart';
+import '../../../consts/text_styles.dart';
 import '../../../models/notification_model.dart';
-import '../../../themes/colors.dart';
-import '../../../utils/constants.dart';
-import '../../../utils/text_styles.dart';
+import '../../../widgets/loading_indicators.dart';
 
 class NotificationScreen extends StatelessWidget {
   const NotificationScreen({Key? key}) : super(key: key);
@@ -36,11 +37,26 @@ class NotificationScreen extends StatelessWidget {
               );
             } else if (snapshot.data!.docs.isEmpty) {
               return Center(
-                child: Text(
-                  "No Notifications Found",
-                  style: AppTextStyle.mainHeading.copyWith(
-                    color: Colors.blueGrey,
-                  ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 20),
+                      child: SizedBox(
+                        height: 100,
+                        width: 100,
+                        child: Image.asset(AppAssets.noNoti, color: AppColors.primaryWhite),
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    Text(
+                      "No Notifications Found",
+                      style: AppTextStyle.mainHeading.copyWith(
+                        color: Colors.white,
+                        fontSize: 18,
+                      ),
+                    ),
+                  ],
                 ),
               );
             }

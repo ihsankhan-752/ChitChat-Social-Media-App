@@ -1,13 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chitchat/providers/user_controller.dart';
 import 'package:chitchat/services/user_profile_services.dart';
-import 'package:chitchat/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../consts/colors.dart';
 import '../../../../providers/image_controller.dart';
-import '../../../../themes/colors.dart';
+import '../../../../widgets/loading_indicators.dart';
 import '../../../../widgets/upload_photo_option_widget.dart';
 
 class ImagePortion extends StatelessWidget {

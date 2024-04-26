@@ -1,4 +1,4 @@
-package com.iktechsol.chitchat
+package com.teamiktechsol.chitchat
 
 import io.flutter.embedding.android.FlutterActivity
 

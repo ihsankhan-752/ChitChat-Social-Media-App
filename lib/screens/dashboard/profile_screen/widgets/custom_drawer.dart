@@ -8,9 +8,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../consts/colors.dart';
+import '../../../../consts/screen_navigations.dart';
 import '../../../../providers/user_controller.dart';
-import '../../../../themes/colors.dart';
-import '../../../../utils/screen_navigations.dart';
 import '../../../../widgets/dialogs.dart';
 import 'custom_list_tile.dart';
 

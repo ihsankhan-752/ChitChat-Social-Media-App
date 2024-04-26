@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../consts/colors.dart';
 import '../../../../models/user_model.dart';
 import '../../../../providers/user_controller.dart';
-import '../../../../themes/colors.dart';
 
 class ShowUserFollowing extends StatelessWidget {
   const ShowUserFollowing({super.key});

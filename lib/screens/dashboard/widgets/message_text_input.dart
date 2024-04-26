@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../themes/colors.dart';
+import '../../../consts/colors.dart';
 
 class MessageTextInput extends StatelessWidget {
   final TextEditingController? controller;
@@ -16,32 +16,26 @@ class MessageTextInput extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(
-            child: Container(
-              height: 60,
-              decoration: BoxDecoration(
-                color: AppColors.primaryColor,
-                borderRadius: BorderRadius.circular(15),
+            child: TextField(
+              controller: controller,
+              style: TextStyle(
+                color: AppColors.primaryWhite,
               ),
-              child: TextField(
-                controller: controller,
-                style: TextStyle(
-                  color: AppColors.primaryWhite,
-                ),
-                decoration: InputDecoration(
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.only(top: 20),
-                    prefixIcon: IconButton(
-                      onPressed: picSelectionTapped,
-                      icon: Padding(
-                        padding: const EdgeInsets.only(top: 10),
-                        child: Icon(Icons.photo, color: AppColors.primaryWhite),
-                      ),
-                    ),
-                    hintText: "Message....",
-                    hintStyle: const TextStyle(
-                      color: Colors.grey,
-                    )),
-              ),
+              decoration: InputDecoration(
+                  fillColor: AppColors.primaryColor,
+                  filled: true,
+                  isDense: true,
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  border: InputBorder.none,
+                  hintText: "Message....",
+                  hintStyle: const TextStyle(
+                    color: Colors.grey,
+                  )),
             ),
           ),
           SizedBox(width: 10),

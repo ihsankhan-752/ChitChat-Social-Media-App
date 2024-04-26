@@ -1,16 +1,15 @@
+import 'package:chitchat/consts/app_assets.dart';
 import 'package:chitchat/screens/dashboard/home/widgets/custom_post_card.dart';
-import 'package:chitchat/screens/dashboard/minor_screen/bookmarks/save_posts_screen.dart';
+import 'package:chitchat/screens/dashboard/notifications/notification_screen.dart';
 import 'package:chitchat/screens/dashboard/widgets/shimmer_loading.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import '../../../consts/colors.dart';
+import '../../../consts/screen_navigations.dart';
 import '../../../providers/post_controller.dart';
 import '../../../services/notification_services.dart';
-import '../../../themes/colors.dart';
-import '../../../utils/screen_navigations.dart';
-import '../minor_screen/chat_screen/user_list_for_chat_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -45,17 +44,13 @@ class _HomeScreenState extends State<HomeScreen> {
         centerTitle: false,
         actions: [
           IconButton(
-            icon: Icon(FontAwesomeIcons.paperPlane, color: AppColors.primaryWhite),
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            icon: SizedBox(height: 25, width: 25, child: Image.asset(AppAssets.notificationIcon, color: AppColors.primaryWhite)),
             onPressed: () {
-              navigateToNext(context, const UserListForChatScreen());
+              navigateToNext(context, const NotificationScreen());
             },
           ),
-          // IconButton(
-          //   icon: Icon(Icons.bookmark, color: AppColors.primaryWhite),
-          //   onPressed: () {
-          //     navigateToNext(context, SavePostsScreen());
-          //   },
-          // )
         ],
       ),
       body: postController.postList.isEmpty

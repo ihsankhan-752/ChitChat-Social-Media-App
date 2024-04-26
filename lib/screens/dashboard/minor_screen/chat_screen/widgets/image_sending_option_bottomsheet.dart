@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../../../../consts/colors.dart';
 import '../../../../../providers/image_controller.dart';
-import '../../../../../themes/colors.dart';
 
 imageSendingOptionBottomSheet(BuildContext context, ImageController imageController) {
   return SizedBox(

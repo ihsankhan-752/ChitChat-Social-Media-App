@@ -12,7 +12,7 @@ import 'package:uuid/uuid.dart';
 import '../models/post_model.dart';
 import '../providers/loading_controller.dart';
 import '../screens/dashboard/bottom_nav_bar.dart';
-import '../utils/custom_messanger.dart';
+import '../widgets/custom_messanger.dart';
 import 'firebase_storage_services.dart';
 
 class PostServices {
@@ -51,8 +51,6 @@ class PostServices {
       Provider.of<LoadingController>(context, listen: false).setLoading(false);
 
       Navigator.of(context, rootNavigator: true).pushReplacement(MaterialPageRoute(builder: (context) => const BottomNavBar()));
-
-      showMessage(context, 'Post Uploaded Successfully');
     } on FirebaseException catch (e) {
       Provider.of<LoadingController>(context, listen: false).setLoading(false);
       showMessage(context, e.message!);

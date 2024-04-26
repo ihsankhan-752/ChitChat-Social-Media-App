@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_grid_view.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_tile.dart';
 
-import '../../../../utils/constants.dart';
+import '../../../../widgets/loading_indicators.dart';
 import '../../widgets/video_player_for_display_video.dart';
 
 class ShowUserPost extends StatelessWidget {

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:neumorphic_button/neumorphic_button.dart';
 
-import '../themes/colors.dart';
-import '../utils/text_styles.dart';
+import '../consts/colors.dart';
+import '../consts/text_styles.dart';
 
 class PrimaryButton extends StatelessWidget {
   final String? title;
@@ -12,9 +12,12 @@ class PrimaryButton extends StatelessWidget {
   final bool isIconReq;
   final Color? btnColor;
   final Color? iconColor;
+  final double? width, height;
   const PrimaryButton({
     Key? key,
     this.title,
+    this.width,
+    this.height,
     this.onPressed,
     this.icon,
     this.isIconReq = false,
@@ -24,11 +27,11 @@ class PrimaryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return GestureDetector(
       onTap: onPressed ?? () {},
       child: Container(
-        height: 55,
-        width: double.infinity,
+        height: height ?? 55,
+        width: width ?? double.infinity,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           color: btnColor,
@@ -208,8 +211,8 @@ class TextSendingButton extends StatelessWidget {
     return GestureDetector(
       onTap: onPressed,
       child: Container(
-        height: 60,
-        width: 60,
+        height: 62,
+        width: 62,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: AppColors.primaryColor,

@@ -1,22 +1,34 @@
 // ignore_for_file: use_build_context_synchronously
+import 'package:chitchat/screens/auth/login_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 import '../models/user_model.dart';
 import '../services/notification_services.dart';
-import '../utils/custom_messanger.dart';
+import '../widgets/custom_messanger.dart';
 
 class UserController extends ChangeNotifier {
   UserModel? _userModel;
   UserModel get userModel => _userModel!;
 
-  getUserData() async {
+  getUserData(BuildContext context) async {
     try {
-      await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).snapshots().listen((snap) {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .snapshots()
+          .listen((snap) async {
         if (snap.exists) {
           _userModel = UserModel.fromDocumentSnapshot(snap);
         } else {
+          await FirebaseAuth.instance.signOut();
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (_) => const LoginScreen(),
+            ),
+          );
           throw 'No User Found';
         }
         notifyListeners();

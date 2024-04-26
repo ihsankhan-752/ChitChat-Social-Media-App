@@ -1,12 +1,12 @@
+import 'package:chitchat/consts/colors.dart';
 import 'package:chitchat/models/post_model.dart';
 import 'package:chitchat/services/post_services.dart';
-import 'package:chitchat/themes/colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
 
-import '../../../../utils/screen_navigations.dart';
+import '../../../../consts/screen_navigations.dart';
 import '../../minor_screen/comment_screen/comment_screen.dart';
 
 class LikeCommentShareButtonWidget extends StatelessWidget {
@@ -23,7 +23,7 @@ class LikeCommentShareButtonWidget extends StatelessWidget {
           StreamBuilder<DocumentSnapshot>(
               stream: FirebaseFirestore.instance.collection('posts').doc(postId).snapshots(),
               builder: (context, snapshot) {
-                if (!snapshot.hasData) {
+                if (!snapshot.hasData || !snapshot.data!.exists) {
                   return Center(
                     child: CircularProgressIndicator(),
                   );

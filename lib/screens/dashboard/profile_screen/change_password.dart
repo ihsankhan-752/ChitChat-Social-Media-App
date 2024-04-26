@@ -1,7 +1,7 @@
+import 'package:chitchat/consts/colors.dart';
 import 'package:chitchat/services/auth_services.dart';
-import 'package:chitchat/themes/colors.dart';
-import 'package:chitchat/utils/custom_messanger.dart';
 import 'package:chitchat/widgets/buttons.dart';
+import 'package:chitchat/widgets/custom_messanger.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pw_validator/flutter_pw_validator.dart';

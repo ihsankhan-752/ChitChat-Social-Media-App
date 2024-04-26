@@ -1,11 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../../consts/colors.dart';
+import '../../../../consts/screen_navigations.dart';
 import '../../../../models/user_model.dart';
-import '../../../../themes/colors.dart';
-import '../../../../utils/constants.dart';
-import '../../../../utils/screen_navigations.dart';
+import '../../../../widgets/loading_indicators.dart';
 import '../../minor_screen/chat_screen/chat_screen.dart';
 
 class UserCustomCard extends StatelessWidget {
@@ -49,16 +50,18 @@ class UserCustomCard extends StatelessWidget {
               color: AppColors.primaryWhite,
             ),
           ),
-          trailing: IconButton(
-            icon: Icon(Icons.message, color: AppColors.primaryWhite),
-            onPressed: () {
-              navigateToNext(
-                  context,
-                  ChatScreen(
-                    userModel: userModel,
-                  ));
-            },
-          ),
+          trailing: userModel.uid == FirebaseAuth.instance.currentUser!.uid
+              ? SizedBox()
+              : IconButton(
+                  icon: Icon(Icons.message, color: AppColors.primaryWhite),
+                  onPressed: () {
+                    navigateToNext(
+                        context,
+                        ChatScreen(
+                          userModel: userModel,
+                        ));
+                  },
+                ),
         ),
         Divider(color: AppColors.mainColor, thickness: 1, height: 0.3),
       ],

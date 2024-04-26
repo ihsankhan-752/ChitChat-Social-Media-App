@@ -1,7 +1,7 @@
 import 'package:chitchat/models/chat_model.dart';
 import 'package:chitchat/models/message_model.dart';
 import 'package:chitchat/providers/loading_controller.dart';
-import 'package:chitchat/utils/custom_messanger.dart';
+import 'package:chitchat/widgets/custom_messanger.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';

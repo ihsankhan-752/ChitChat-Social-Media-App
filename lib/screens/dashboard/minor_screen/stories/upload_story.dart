@@ -1,9 +1,9 @@
 import 'dart:io';
 
+import 'package:chitchat/consts/colors.dart';
 import 'package:chitchat/providers/image_controller.dart';
 import 'package:chitchat/providers/loading_controller.dart';
 import 'package:chitchat/services/story_services.dart';
-import 'package:chitchat/themes/colors.dart';
 import 'package:chitchat/widgets/buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';

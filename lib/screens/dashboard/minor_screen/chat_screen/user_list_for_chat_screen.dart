@@ -1,3 +1,4 @@
+import 'package:chitchat/consts/app_assets.dart';
 import 'package:chitchat/providers/chat_controller.dart';
 import 'package:chitchat/screens/dashboard/minor_screen/chat_screen/widgets/user_card_chat_list.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -5,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../themes/colors.dart';
+import '../../../../consts/colors.dart';
 import '../../../../widgets/text_input.dart';
 
 class UserListForChatScreen extends StatefulWidget {
@@ -35,6 +36,7 @@ class _UserListForChatScreenState extends State<UserListForChatScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         centerTitle: true,
         title: Text(
           'Messages',
@@ -59,14 +61,21 @@ class _UserListForChatScreenState extends State<UserListForChatScreen> {
               const SizedBox(height: 10),
               userController.isEmpty
                   ? Padding(
-                      padding: EdgeInsets.only(top: MediaQuery.sizeOf(context).height * 0.35),
+                      padding: EdgeInsets.only(top: MediaQuery.sizeOf(context).height * 0.25),
                       child: Center(
-                        child: Text(
-                          "No User Found!",
-                          style: TextStyle(
-                            color: AppColors.primaryWhite,
-                            fontSize: 20,
-                          ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(height: 80, width: 100, child: Image.asset(AppAssets.noChat, color: AppColors.primaryWhite)),
+                            SizedBox(height: 10),
+                            Text(
+                              "No User Found!",
+                              style: TextStyle(
+                                color: AppColors.primaryWhite,
+                                fontSize: 20,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     )
@@ -76,10 +85,15 @@ class _UserListForChatScreenState extends State<UserListForChatScreen> {
                         itemCount: userController.length,
                         itemBuilder: (context, index) {
                           if (index < userController.length && index < chatController.length) {
-                            return UserCardChatList(
-                              userModel: userController[index],
-                              chatModel: chatController[index],
-                            );
+                            if (searchController.text.isEmpty ||
+                                userController[index].username!.toLowerCase().contains(searchController.text.toLowerCase())) {
+                              return UserCardChatList(
+                                userModel: userController[index],
+                                chatModel: chatController[index],
+                              );
+                            } else {
+                              return SizedBox();
+                            }
                           } else {
                             return SizedBox();
                           }

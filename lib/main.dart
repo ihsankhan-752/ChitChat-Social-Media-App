@@ -1,3 +1,4 @@
+import 'package:chitchat/consts/colors.dart';
 import 'package:chitchat/providers/chat_controller.dart';
 import 'package:chitchat/providers/comment_controller.dart';
 import 'package:chitchat/providers/file_controller.dart';
@@ -6,7 +7,6 @@ import 'package:chitchat/providers/loading_controller.dart';
 import 'package:chitchat/providers/post_controller.dart';
 import 'package:chitchat/providers/user_controller.dart';
 import 'package:chitchat/screens/splash/splash_screen.dart';
-import 'package:chitchat/themes/colors.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';

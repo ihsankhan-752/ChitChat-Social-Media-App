@@ -1,10 +1,11 @@
+import 'package:chitchat/widgets/loading_indicators.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../consts/colors.dart';
+import '../../consts/text_styles.dart';
 import '../../providers/loading_controller.dart';
 import '../../services/auth_services.dart';
-import '../../themes/colors.dart';
-import '../../utils/text_styles.dart';
 import '../../widgets/buttons.dart';
 import '../../widgets/text_input.dart';
 
@@ -36,8 +37,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             ),
             const SizedBox(height: 30),
             loadingController.isLoading
-                ? const Center(
-                    child: CircularProgressIndicator(),
+                ? Center(
+                    child: spinKit2,
                   )
                 : PrimaryButton(
                     onPressed: () {

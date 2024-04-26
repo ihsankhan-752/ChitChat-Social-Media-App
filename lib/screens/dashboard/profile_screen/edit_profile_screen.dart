@@ -1,8 +1,8 @@
+import 'package:chitchat/consts/colors.dart';
 import 'package:chitchat/providers/loading_controller.dart';
 import 'package:chitchat/providers/user_controller.dart';
 import 'package:chitchat/screens/dashboard/profile_screen/widgets/image_portion.dart';
 import 'package:chitchat/services/user_profile_services.dart';
-import 'package:chitchat/themes/colors.dart';
 import 'package:chitchat/widgets/buttons.dart';
 import 'package:chitchat/widgets/text_input.dart';
 import 'package:flutter/material.dart';

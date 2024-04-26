@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-import '../../../utils/screen_navigations.dart';
+import '../../../consts/screen_navigations.dart';
 import '../minor_screen/comment_screen/comment_screen.dart';
 
 class MovingToCommentScreenIconWidget extends StatelessWidget {

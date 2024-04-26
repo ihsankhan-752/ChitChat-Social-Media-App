@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../../themes/colors.dart';
+import '../../../consts/colors.dart';
 
 class CustomUserStatus extends StatefulWidget {
   const CustomUserStatus({Key? key}) : super(key: key);

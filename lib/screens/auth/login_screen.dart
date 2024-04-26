@@ -1,13 +1,14 @@
 // ignore_for_file: use_build_context_synchronously
 import 'package:chitchat/screens/auth/sign_up_screen.dart';
+import 'package:chitchat/widgets/loading_indicators.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../consts/colors.dart';
+import '../../consts/screen_navigations.dart';
+import '../../consts/text_styles.dart';
 import '../../providers/loading_controller.dart';
 import '../../services/auth_services.dart';
-import '../../themes/colors.dart';
-import '../../utils/screen_navigations.dart';
-import '../../utils/text_styles.dart';
 import '../../widgets/buttons.dart';
 import '../../widgets/text_input.dart';
 import 'forgot_password.dart';
@@ -71,10 +72,8 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               const SizedBox(height: 20),
               loadingController.isLoading
-                  ? const Center(
-                      child: CircularProgressIndicator(
-                        color: Colors.red,
-                      ),
+                  ? Center(
+                      child: spinKit2,
                     )
                   : PrimaryButton(
                       onPressed: () {

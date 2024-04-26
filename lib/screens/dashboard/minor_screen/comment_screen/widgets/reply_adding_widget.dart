@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../../../../../themes/colors.dart';
+import '../../../../../consts/colors.dart';
 
 class ReplyAddingWidget extends StatelessWidget {
   final TextEditingController controller;
   final Function() onPressed;
-  const ReplyAddingWidget(
-      {super.key, required this.controller, required this.onPressed});
+  const ReplyAddingWidget({super.key, required this.controller, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -16,8 +15,7 @@ class ReplyAddingWidget extends StatelessWidget {
         showModalBottomSheet(
             backgroundColor: AppColors.primaryColor,
             shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(15), topLeft: Radius.circular(15)),
+              borderRadius: BorderRadius.only(topRight: Radius.circular(15), topLeft: Radius.circular(15)),
             ),
             context: context,
             builder: (_) {

@@ -8,12 +8,12 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 
+import '../consts/screen_navigations.dart';
 import '../models/user_model.dart';
 import '../providers/loading_controller.dart';
 import '../screens/auth/login_screen.dart';
 import '../screens/dashboard/bottom_nav_bar.dart';
-import '../utils/custom_messanger.dart';
-import '../utils/screen_navigations.dart';
+import '../widgets/custom_messanger.dart';
 import 'firebase_storage_services.dart';
 
 class AuthServices {
@@ -33,7 +33,7 @@ class AuthServices {
       try {
         Provider.of<LoadingController>(context, listen: false).setLoading(true);
 
-        await _auth.createUserWithEmailAndPassword(email: email, password: password);
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
 
         String? imageUrl;
         if (file != null) {

@@ -1,8 +1,6 @@
-import 'dart:io';
-
 import 'package:chitchat/providers/loading_controller.dart';
 import 'package:chitchat/services/firebase_storage_services.dart';
-import 'package:chitchat/utils/custom_messanger.dart';
+import 'package:chitchat/widgets/custom_messanger.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';

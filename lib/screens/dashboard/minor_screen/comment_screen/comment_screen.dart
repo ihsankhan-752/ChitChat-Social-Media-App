@@ -3,8 +3,8 @@ import 'package:chitchat/widgets/text_input.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../consts/colors.dart';
 import '../../../../services/comment_services.dart';
-import '../../../../themes/colors.dart';
 import '../../widgets/comment_snap_card.dart';
 
 class CommentScreen extends StatefulWidget {

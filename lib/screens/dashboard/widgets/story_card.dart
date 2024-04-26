@@ -3,8 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../../../themes/colors.dart';
-import '../../../utils/screen_navigations.dart';
+import '../../../consts/colors.dart';
+import '../../../consts/screen_navigations.dart';
 import '../minor_screen/stories/widgets/get_stories.dart';
 
 class StoryCard extends StatefulWidget {

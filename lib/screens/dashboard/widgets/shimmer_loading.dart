@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
-import '../../../themes/colors.dart';
+import '../../../consts/colors.dart';
 
 shimmerLoading() {
   return Shimmer.fromColors(

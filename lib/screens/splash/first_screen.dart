@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../themes/colors.dart';
-import '../../utils/screen_navigations.dart';
-import '../../utils/text_styles.dart';
+import '../../consts/colors.dart';
+import '../../consts/screen_navigations.dart';
+import '../../consts/text_styles.dart';
 import '../../widgets/buttons.dart';
 import '../auth/login_screen.dart';
 import '../auth/sign_up_screen.dart';

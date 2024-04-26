@@ -7,10 +7,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:uuid/uuid.dart';
 
+import '../../../consts/colors.dart';
 import '../../../models/comment_model.dart';
 import '../../../services/comment_services.dart';
-import '../../../themes/colors.dart';
-import '../../../utils/constants.dart';
+import '../../../widgets/loading_indicators.dart';
 import '../minor_screen/comment_screen/widgets/display_all_reply_widget.dart';
 import '../minor_screen/comment_screen/widgets/reply_adding_widget.dart';
 

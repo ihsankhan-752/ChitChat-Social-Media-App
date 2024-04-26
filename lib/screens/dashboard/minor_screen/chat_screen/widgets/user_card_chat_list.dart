@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
+import '../../../../../consts/colors.dart';
+import '../../../../../consts/screen_navigations.dart';
 import '../../../../../models/chat_model.dart';
-import '../../../../../themes/colors.dart';
-import '../../../../../utils/screen_navigations.dart';
 import '../chat_screen.dart';
 
 class UserCardChatList extends StatelessWidget {

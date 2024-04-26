@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../themes/colors.dart';
+import '../../../consts/colors.dart';
 
 class PostUploadingCard extends StatelessWidget {
   final Function()? onTappedForGallery;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
-import '../../../../themes/colors.dart';
+import '../../../../consts/colors.dart';
 
 class StoryFullScreen extends StatelessWidget {
   final dynamic data;

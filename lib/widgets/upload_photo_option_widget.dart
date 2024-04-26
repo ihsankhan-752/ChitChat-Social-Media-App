@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../consts/colors.dart';
 import '../screens/dashboard/profile_screen/widgets/custom_list_tile.dart';
-import '../themes/colors.dart';
 
 uploadPhotoOptionWidget({BuildContext? context, Function()? onCameraClicked, Function()? onGalleryClicked}) {
   return showModalBottomSheet(

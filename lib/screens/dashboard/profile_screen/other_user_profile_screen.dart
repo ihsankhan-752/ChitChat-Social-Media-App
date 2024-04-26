@@ -1,6 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:chitchat/consts/screen_navigations.dart';
+import 'package:chitchat/screens/dashboard/minor_screen/chat_screen/chat_screen.dart';
 import 'package:chitchat/screens/dashboard/profile_screen/widgets/profile_header.dart';
 import 'package:chitchat/screens/dashboard/profile_screen/widgets/user_custom_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -9,13 +11,12 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import '../../../consts/colors.dart';
 import '../../../models/user_model.dart';
 import '../../../providers/post_controller.dart';
 import '../../../providers/user_controller.dart';
-import '../../../themes/colors.dart';
-import '../../../utils/constants.dart';
 import '../../../widgets/buttons.dart';
-import '../widgets/video_player_for_display_video.dart';
+import '../../../widgets/loading_indicators.dart';
 
 class OtherUserProfileScreen extends StatefulWidget {
   final UserModel? userModel;
@@ -41,33 +42,30 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
     double width = MediaQuery.sizeOf(context).width * 1;
     final userController = Provider.of<UserController>(context);
     return Scaffold(
-      floatingActionButton: SizedBox(
-        height: 45,
-        child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.mainColor,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          PrimaryButton(
+            height: 45,
+            width: 100,
+            btnColor: AppColors.primaryColor,
+            onPressed: () {
+              navigateToNext(context, ChatScreen(userModel: widget.userModel!));
+            },
+            title: "Chat",
           ),
-          onPressed: () async {
-            await userController.followAndUnFollowUser(context, widget.userModel!.uid!);
-            Navigator.pop(context);
-          },
-          child: widget.userModel!.followers!.contains(FirebaseAuth.instance.currentUser!.uid)
-              ? Text(
-                  "Unfollow",
-                  style: TextStyle(
-                    color: AppColors.primaryWhite,
-                  ),
-                )
-              : Text(
-                  "Follow",
-                  style: TextStyle(
-                    color: AppColors.primaryWhite,
-                  ),
-                ),
-        ),
+          SizedBox(width: 15),
+          PrimaryButton(
+            height: 45,
+            width: 100,
+            btnColor: AppColors.primaryColor,
+            onPressed: () async {
+              await userController.followAndUnFollowUser(context, widget.userModel!.uid!);
+              Navigator.pop(context);
+            },
+            title: widget.userModel!.followers!.contains(FirebaseAuth.instance.currentUser!.uid) ? "Unfollow" : "Follow",
+          ),
+        ],
       ),
       appBar: AppBar(
         centerTitle: true,
@@ -167,117 +165,88 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                   ),
                   itemCount: postController.myPostList.length,
                   itemBuilder: (context, index) {
-                    return postController.myPostList[index].videoUrl == ""
-                        ? CachedNetworkImage(
-                            imageUrl: postController.myPostList[index].postImages[0],
-                            fit: BoxFit.cover,
-                            placeholder: (context, url) => spinKit2,
-                          )
-                        : SizedBox(
-                            height: 200,
-                            child: VideoPlayerForDisplayVideo(
-                              path: postController.myPostList[index].videoUrl,
-                            ),
-                          );
+                    return CachedNetworkImage(
+                      imageUrl: postController.myPostList[index].postImages[0],
+                      fit: BoxFit.cover,
+                      placeholder: (context, url) => spinKit2,
+                    );
                   },
                 ),
               ),
             if (currentIndex == 1)
-              widget.userModel!.followers != null && widget.userModel!.followers!.isEmpty
-                  ? Padding(
-                      padding: const EdgeInsets.only(top: 150),
-                      child: Text(
-                        "No User Found",
-                        style: GoogleFonts.poppins(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.primaryWhite,
+              SizedBox(
+                height: MediaQuery.sizeOf(context).height * 0.6,
+                child: StreamBuilder(
+                  stream: widget.userModel!.followers != null && widget.userModel!.followers!.isNotEmpty
+                      ? FirebaseFirestore.instance
+                          .collection('users')
+                          .where(FieldPath.documentId, whereIn: widget.userModel!.followers)
+                          .snapshots()
+                      : Stream.empty(),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    } else if (snapshot.data!.docs.isEmpty) {
+                      return Center(
+                        child: Center(
+                          child: Text(
+                            "You are not Following Any One",
+                            style: GoogleFonts.poppins(
+                              color: AppColors.mainColor,
+                            ),
+                          ),
                         ),
-                      ),
-                    )
-                  : SizedBox(
-                      height: MediaQuery.sizeOf(context).height * 0.6,
-                      child: StreamBuilder(
-                        stream: FirebaseFirestore.instance
-                            .collection('users')
-                            .where(FieldPath.documentId,
-                                whereIn: widget.userModel!.followers != null ? widget.userModel!.followers! : [])
-                            .snapshots(),
-                        builder: (context, snapshot) {
-                          if (!snapshot.hasData) {
-                            return const Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          } else if (snapshot.data!.docs.isEmpty) {
-                            return Center(
-                              child: Center(
-                                child: Text(
-                                  "You are not Following Any One",
-                                  style: GoogleFonts.poppins(
-                                    color: AppColors.mainColor,
-                                  ),
-                                ),
-                              ),
-                            );
-                          }
-                          return ListView.builder(
-                            itemCount: snapshot.data!.docs.length,
-                            itemBuilder: (context, index) {
-                              UserModel userModel = UserModel.fromDocumentSnapshot(snapshot.data!.docs[index]);
-                              return UserCustomCard(userModel: userModel);
-                            },
-                          );
-                        },
-                      ),
-                    ),
+                      );
+                    }
+                    return ListView.builder(
+                      itemCount: snapshot.data!.docs.length,
+                      itemBuilder: (context, index) {
+                        UserModel userModel = UserModel.fromDocumentSnapshot(snapshot.data!.docs[index]);
+                        return UserCustomCard(userModel: userModel);
+                      },
+                    );
+                  },
+                ),
+              ),
             if (currentIndex == 2)
-              widget.userModel!.following != null && widget.userModel!.following!.isEmpty
-                  ? Padding(
-                      padding: const EdgeInsets.only(top: 150),
-                      child: Text(
-                        "No User Found",
-                        style: GoogleFonts.poppins(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.primaryWhite,
+              SizedBox(
+                height: MediaQuery.sizeOf(context).height * 0.6,
+                child: StreamBuilder(
+                  stream: widget.userModel!.following != null && widget.userModel!.following!.isNotEmpty
+                      ? FirebaseFirestore.instance
+                          .collection('users')
+                          .where(FieldPath.documentId, whereIn: widget.userModel!.following)
+                          .snapshots()
+                      : Stream.empty(),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    } else if (snapshot.data!.docs.isEmpty) {
+                      return Center(
+                        child: Center(
+                          child: Text(
+                            "You are not Following Any One",
+                            style: GoogleFonts.poppins(
+                              color: AppColors.primaryWhite,
+                            ),
+                          ),
                         ),
-                      ),
-                    )
-                  : SizedBox(
-                      height: MediaQuery.sizeOf(context).height * 0.6,
-                      child: StreamBuilder(
-                        stream: FirebaseFirestore.instance
-                            .collection('users')
-                            .where(FieldPath.documentId,
-                                whereIn: widget.userModel!.following != null ? widget.userModel!.following! : [])
-                            .snapshots(),
-                        builder: (context, snapshot) {
-                          if (!snapshot.hasData) {
-                            return const Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          } else if (snapshot.data!.docs.isEmpty) {
-                            return Center(
-                              child: Center(
-                                child: Text(
-                                  "You are not Following Any One",
-                                  style: GoogleFonts.poppins(
-                                    color: AppColors.mainColor,
-                                  ),
-                                ),
-                              ),
-                            );
-                          }
-                          return ListView.builder(
-                            itemCount: snapshot.data!.docs.length,
-                            itemBuilder: (context, index) {
-                              UserModel userModel = UserModel.fromDocumentSnapshot(snapshot.data!.docs[index]);
-                              return UserCustomCard(userModel: userModel);
-                            },
-                          );
-                        },
-                      ),
-                    ),
+                      );
+                    }
+                    return ListView.builder(
+                      itemCount: snapshot.data!.docs.length,
+                      itemBuilder: (context, index) {
+                        UserModel userModel = UserModel.fromDocumentSnapshot(snapshot.data!.docs[index]);
+                        return UserCustomCard(userModel: userModel);
+                      },
+                    );
+                  },
+                ),
+              ),
           ],
         ),
       ),

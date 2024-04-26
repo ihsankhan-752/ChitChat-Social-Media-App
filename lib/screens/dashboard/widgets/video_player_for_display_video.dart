@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
-import '../../../themes/colors.dart';
+import '../../../consts/colors.dart';
 
 class VideoPlayerForDisplayVideo extends StatefulWidget {
   final String? path;
@@ -48,9 +48,7 @@ class _VideoPlayerForDisplayVideoState extends State<VideoPlayerForDisplayVideo>
                     });
                   },
                   // Icons.pause : Icons.play_arrow,
-                  icon: controller!.value.isPlaying
-                      ? const Icon(Icons.pause, size: 25)
-                      : const Icon(Icons.play_arrow, size: 25),
+                  icon: controller!.value.isPlaying ? const Icon(Icons.pause, size: 25) : const Icon(Icons.play_arrow, size: 25),
                   color: AppColors.btnColor)),
         ],
       ),

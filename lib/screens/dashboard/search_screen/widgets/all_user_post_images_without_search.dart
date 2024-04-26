@@ -5,7 +5,7 @@ import 'package:staggered_grid_view_flutter/widgets/staggered_grid_view.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_tile.dart';
 
 import '../../../../providers/post_controller.dart';
-import '../../../../utils/constants.dart';
+import '../../../../widgets/loading_indicators.dart';
 import '../../widgets/video_player_for_display_video.dart';
 
 class AllUserPostImagesWithOutSearch extends StatelessWidget {
@@ -16,7 +16,7 @@ class AllUserPostImagesWithOutSearch extends StatelessWidget {
     final postController = Provider.of<PostController>(context);
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
-      height: MediaQuery.of(context).size.height * 0.6,
+      height: MediaQuery.of(context).size.height * 0.7,
       child: StaggeredGridView.countBuilder(
         crossAxisCount: 3,
         mainAxisSpacing: 8,

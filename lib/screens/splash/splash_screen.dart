@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../../utils/screen_navigations.dart';
+import '../../consts/screen_navigations.dart';
 import '../dashboard/bottom_nav_bar.dart';
 import 'first_screen.dart';
 

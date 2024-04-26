@@ -13,7 +13,7 @@ class ImageController extends ChangeNotifier {
   uploadImage(ImageSource source) async {
     XFile? pickedFile = await ImagePicker().pickImage(
       source: source,
-      imageQuality: 70,
+      imageQuality: 50,
     );
     _selectedImage = File(pickedFile!.path);
     notifyListeners();

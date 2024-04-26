@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../themes/colors.dart';
+import '../../../consts/colors.dart';
 
 class UserProfileCustomCard extends StatelessWidget {
   final int? value;

@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../themes/colors.dart';
+import '../../../../consts/colors.dart';
 
 class ChatScreen extends StatefulWidget {
   final UserModel userModel;

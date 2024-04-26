@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 import '../models/post_model.dart';
 import '../services/notification_services.dart';
-import '../utils/custom_messanger.dart';
+import '../widgets/custom_messanger.dart';
 
 class PostController extends ChangeNotifier {
   final List<PostModel> _postList = [];

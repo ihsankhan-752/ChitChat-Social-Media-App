@@ -2,8 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../../themes/colors.dart';
-import '../../../../utils/constants.dart';
+import '../../../../consts/colors.dart';
+import '../../../../widgets/loading_indicators.dart';
 
 class ProfileHeader extends StatelessWidget {
   final String userImage, username, bio;

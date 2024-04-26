@@ -8,7 +8,7 @@ import 'package:uuid/uuid.dart';
 
 import '../models/comment_model.dart';
 import '../providers/loading_controller.dart';
-import '../utils/custom_messanger.dart';
+import '../widgets/custom_messanger.dart';
 import 'notification_services.dart';
 
 class CommentServices {
@@ -57,8 +57,6 @@ class CommentServices {
         );
 
         Provider.of<LoadingController>(context, listen: false).setLoading(false);
-
-        showMessage(context, 'Comment Is Added SuccessFully');
       } on FirebaseException catch (e) {
         Provider.of<LoadingController>(context, listen: false).setLoading(false);
         showMessage(context, e.message!);

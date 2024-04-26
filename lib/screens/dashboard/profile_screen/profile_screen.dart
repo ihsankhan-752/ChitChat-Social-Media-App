@@ -10,9 +10,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import '../../../consts/colors.dart';
 import '../../../providers/post_controller.dart';
 import '../../../providers/user_controller.dart';
-import '../../../themes/colors.dart';
 import '../../../widgets/buttons.dart';
 
 class ProfileScreen extends StatefulWidget {

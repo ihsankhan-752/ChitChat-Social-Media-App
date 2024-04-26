@@ -1,14 +1,14 @@
-import 'package:chitchat/screens/dashboard/profile_screen/profile_screen.dart';
-import 'package:chitchat/screens/dashboard/search_screen/search_screen.dart';
+import 'package:chitchat/consts/app_assets.dart';
+import 'package:chitchat/consts/screen_navigations.dart';
+import 'package:chitchat/screens/dashboard/upload/add_post_screen.dart';
+import 'package:chitchat/screens/dashboard/widgets/bottom_tab_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../consts/colors.dart';
+import '../../consts/lists.dart';
 import '../../providers/user_controller.dart';
 import '../../services/notification_services.dart';
-import '../../themes/colors.dart';
-import 'home/home_screen.dart';
-import 'notifications/notification_screen.dart';
-import 'upload/upload_post_screen.dart';
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({Key? key}) : super(key: key);
@@ -19,19 +19,13 @@ class BottomNavBar extends StatefulWidget {
 
 class _BottomNavBarState extends State<BottomNavBar> {
   NotificationServices notificationServices = NotificationServices();
-  final List<Widget> _screens = [
-    const HomeScreen(),
-    const SearchScreen(),
-    const AddPostScreen(),
-    const NotificationScreen(),
-    const ProfileScreen(),
-  ];
+
   int currentIndex = 0;
 
   @override
   void initState() {
     super.initState();
-    Provider.of<UserController>(context, listen: false).getUserData();
+    Provider.of<UserController>(context, listen: false).getUserData(context);
     notificationServices.getPermission();
     notificationServices.initNotification(context);
     notificationServices.getDeviceToken();
@@ -47,67 +41,73 @@ class _BottomNavBarState extends State<BottomNavBar> {
         }
       },
       child: Scaffold(
-        extendBody: true,
-        bottomNavigationBar: Container(
-          height: 70,
-          width: double.infinity,
-          decoration: BoxDecoration(
-            color: AppColors.primaryBlack,
-            border: Border(
-              top: BorderSide(color: AppColors.primaryColor, width: 2),
+        resizeToAvoidBottomInset: false,
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        floatingActionButton: GestureDetector(
+          onTap: () {
+            navigateToNext(context, AddPostScreen());
+          },
+          child: CircleAvatar(
+            backgroundColor: AppColors.primaryColor,
+            radius: 30,
+            child: Center(
+              child: Icon(Icons.add, color: AppColors.primaryWhite, size: 28),
             ),
           ),
+        ),
+        extendBody: true,
+        bottomNavigationBar: BottomAppBar(
+          color: AppColors.primaryColor,
+          height: 60,
+          shape: CircularNotchedRectangle(),
+          notchMargin: 4,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 15),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                GestureDetector(
-                  onTap: () {
+                BottomTabWidget(
+                  onPressed: () {
                     setState(() {
                       currentIndex = 0;
                     });
                   },
-                  child: Icon(Icons.home, color: currentIndex == 0 ? AppColors.primaryWhite : Colors.grey, size: 27),
+                  image: AppAssets.homeIcon,
+                  imageColor: currentIndex == 0 ? AppColors.primaryWhite : Colors.grey.withOpacity(0.7),
                 ),
-                GestureDetector(
-                  onTap: () {
+                BottomTabWidget(
+                  onPressed: () {
                     setState(() {
                       currentIndex = 1;
                     });
                   },
-                  child: Icon(Icons.search, color: currentIndex == 1 ? AppColors.primaryWhite : Colors.grey, size: 27),
+                  image: AppAssets.searchIcon,
+                  imageColor: currentIndex == 1 ? AppColors.primaryWhite : Colors.grey.withOpacity(0.7),
                 ),
-                GestureDetector(
-                  onTap: () {
+                SizedBox(width: 1),
+                BottomTabWidget(
+                  onPressed: () {
                     setState(() {
                       currentIndex = 2;
                     });
                   },
-                  child: Icon(Icons.add_box_outlined, color: currentIndex == 2 ? AppColors.primaryWhite : Colors.grey, size: 27),
+                  image: AppAssets.chatIcon,
+                  imageColor: currentIndex == 2 ? AppColors.primaryWhite : Colors.grey.withOpacity(0.7),
                 ),
-                GestureDetector(
-                  onTap: () {
+                BottomTabWidget(
+                  onPressed: () {
                     setState(() {
                       currentIndex = 3;
                     });
                   },
-                  child: Icon(Icons.notifications_on_sharp,
-                      color: currentIndex == 3 ? AppColors.primaryWhite : Colors.grey, size: 27),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      currentIndex = 4;
-                    });
-                  },
-                  child: Icon(Icons.person, color: currentIndex == 4 ? AppColors.primaryWhite : Colors.grey, size: 27),
+                  image: AppAssets.personIcon,
+                  imageColor: currentIndex == 3 ? AppColors.primaryWhite : Colors.grey.withOpacity(0.7),
                 ),
               ],
             ),
           ),
         ),
-        body: _screens[currentIndex],
+        body: screens[currentIndex],
       ),
     );
   }

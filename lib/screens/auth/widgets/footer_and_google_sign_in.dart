@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../../consts/colors.dart';
+import '../../../consts/screen_navigations.dart';
+import '../../../consts/text_styles.dart';
 import '../../../services/auth_services.dart';
-import '../../../themes/colors.dart';
-import '../../../utils/screen_navigations.dart';
-import '../../../utils/text_styles.dart';
 import '../../../widgets/buttons.dart';
 import '../sign_up_screen.dart';
 

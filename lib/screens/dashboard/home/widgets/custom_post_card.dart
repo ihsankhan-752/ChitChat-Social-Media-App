@@ -4,9 +4,9 @@ import 'package:chitchat/screens/dashboard/home/widgets/post_header.dart';
 import 'package:chitchat/screens/dashboard/home/widgets/post_image_portion.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../themes/colors.dart';
-import '../../../../utils/custom_messanger.dart';
-import '../../../../utils/screen_navigations.dart';
+import '../../../../consts/colors.dart';
+import '../../../../consts/screen_navigations.dart';
+import '../../../../widgets/custom_messanger.dart';
 import 'like_comment_and_share_btn_widget.dart';
 import 'list_of_user_who_like_post.dart';
 
@@ -27,16 +27,9 @@ class CustomPostCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          PostHeader(
-            postModel: postModel,
-          ),
-          PostImagePortion(
-            postModel: postModel,
-          ),
-          LikeCommentShareButtonWidget(
-            postId: postModel.postId,
-            postModel: postModel,
-          ),
+          PostHeader(postModel: postModel),
+          PostImagePortion(postModel: postModel),
+          LikeCommentShareButtonWidget(postId: postModel.postId, postModel: postModel),
           SizedBox(height: 15),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15),
